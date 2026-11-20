@@ -813,6 +813,7 @@ function stairs(k){
     g.addEventListener('click',play);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();play();}});
     svg.append(g);treads.push(r);
   });
+  for(let i=stairSets.length-1;i>=0;i--)if(!stairSets[i].treads[0].isConnected)stairSets.splice(i,1);
   stairSets.push({k,treads});
   return h('div',{class:'stairs',style:`--mc:var(--${k})`},svg);
 }
@@ -929,7 +930,7 @@ function buildTest(lesson,dayNum){const qs=[];
   lesson.test.forEach(([type,p,n])=>{for(let i=0;i<n;i++){
     if(type==='two'){/* two-step naming: first the stair-2 group, then the maqam inside that group, on the same sound */
       const a=gen('pair',p);a.diff=difficulty(a,p);const grp=p.set.filter(x=>groupOf(x)===groupOf(a.k));
-      const b=makeWhich(a.k,grp,'finger',a.offset);b.prompt='Same sound. Which maqam in that group?';b.diff=a.diff+1e-6;qs.push(a,b);continue;}
+      qs.push(a);if(grp.length>1){const b=makeWhich(a.k,grp,'finger',a.offset);b.prompt='Same sound. Which maqam in that group?';b.diff=a.diff+1e-6;qs.push(b);}continue;}
     const q=gen(type,p);q.diff=difficulty(q,p);qs.push(q);}});
   const kn=dayNum?knowCount(dayNum):0;if(kn){const set=dayNum>LAST?ALL:introduced(dayNum);const used=new Set();for(let i=0;i<kn;i++)qs.push(genKnow(set,used));}
   return qs.sort((a,b)=>a.diff-b.diff);}
@@ -1133,6 +1134,7 @@ function hintFor(k,i,dev){const st=M[k].steps,step=i>0?st[i]-st[i-1]:0;
   return '';}
 function meterLoop(){
   SG.raf=0;if(!SG.an||(!SG.stream&&SG.mode==='mic')){SG.disp=null;drawMeter(performance.now());return;}
+  if(SG.mode==='clip'&&(!SG.cur||SG.cur.el.paused)&&SG.disp==null&&(SG.orbA||0)<.02){drawMeter(performance.now());return;}
   SG.an.getFloatTimeDomainData(SG.buf);const now=performance.now();
   if(now-(SG.lastDetect||0)<28){drawMeter(now);SG.raf=requestAnimationFrame(meterLoop);return;}SG.lastDetect=now;
   let f=-1;if(SG.mode!=='mic'||now>playingUntil+150)f=detectPitch(SG.buf,ctx.sampleRate);
@@ -1201,7 +1203,7 @@ function drawMeter(now){const cv=SG.cv;if(!cv||!cv.isConnected)return;
 }
 function updateReadout(c){const r=$('#readout');if(!r)return;
   if(c==null){r.replaceChildren(h('span',{class:'muted'},SG.mode==='clip'?'Listening to the recording…':(SG.stream?'Sing or hum "aah"… (no clear pitch yet)':'Microphone is off.')));return;}
-  const {i,dev}=stairNear(c),on=Math.abs(dev)<=20,between=Math.abs(dev)>60,hint=hintFor(SG.k,i,dev);
+  const {i,dev}=stairNear(c),on=Math.abs(dev)<=20,between=Math.abs(dev)>60,hint=between?'':hintFor(SG.k,i,dev);
   r.replaceChildren(h('span',{class:'big '+(on?'ok':'off')},between?'Between stairs':`Stair ${i+1}`),
     ...[between?null:h('span',{class:on?'ok':'off'},on?'right on the stair':dev>0?`a little high (+${dev})`:`a little low (${dev})`),hint?h('span',{class:'warn'},hint):null].filter(Boolean));}
 async function startMic(){
@@ -1209,7 +1211,9 @@ async function startMic(){
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){setMicMsg('This browser cannot use the microphone on this page. Try opening the course in Chrome, Safari or Firefox over https.');return false;}
   try{try{if(navigator.audioSession)navigator.audioSession.type='play-and-record';}catch(e){}
     SG.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});}
-  catch(e){setMicMsg(e&&e.name==='NotAllowedError'?'Microphone permission was refused. Allow it in your browser’s site settings, then try again.':'The microphone could not be started.');return false;}
+  catch(e){SG.stream=null;setMicMsg(e&&e.name==='NotAllowedError'?'Microphone permission was refused. Allow it in your browser’s site settings, then try again.':'The microphone could not be started.');return false;}
+  if(curView!=='sing'){SG.stream.getTracks().forEach(t=>t.stop());SG.stream=null;return false;}
+  const hb=$('#homebtn');if(hb)hb.hidden=true;
   disconnectMedia();SG.mode='mic';SG.micNode=ctx.createMediaStreamSource(SG.stream);SG.micNode.connect(analyser());SG.trace=[];SG.cols=null;
   if(!SG.raf)SG.raf=requestAnimationFrame(meterLoop);syncSingButtons();return true;}
 function stopMic(){
@@ -1251,7 +1255,7 @@ async function guided(btn){
     if(await playP([[M[k].steps[idx],2,`Listen: stair ${idx+1}`,idx]],{onNote:hl(k)})==='cancel'||aborted||!SG.stream)break;
     setStatus(`Your turn: sing stair ${idx+1}`,'sing');
     const r=await new Promise(res=>{SG.wait={idx,k,start:performance.now(),hold:0,devs:[],res};});setStatus('');
-    if(aborted)break;SG.results.push(r);}
+    if(aborted||!SG.stream)break;SG.results.push(r);}
   stopHooks=stopHooks.filter(f=>f!==hook);paint(-1);btn.disabled=false;if(!SG.results.length)return;
   const hits=SG.results.filter(r=>r.ok).length;const per={};SG.results.forEach(r=>{if(r.dev!=null)(per[r.idx]=per[r.idx]||[]).push(r.dev);});
   let worst=null;Object.entries(per).forEach(([i,a])=>{const m=Math.round(a.reduce((x,y)=>x+y,0)/a.length);if(i>0&&Math.abs(m)>20&&(!worst||Math.abs(m)>Math.abs(worst.m)))worst={i:+i,m};});
@@ -1384,8 +1388,8 @@ function realCard(r){const name=r.f.split('/').pop(),srcs=[];
   if(!r.mp3&&!r.orig)srcs.push(h('source',{src:`${COMMONS}transcoded/${r.f}/${name}.mp3`,type:'audio/mpeg'}));
   srcs.push(h('source',{src:COMMONS+r.f}));
   const el=h('audio',{controls:true,preload:'none',crossorigin:'anonymous'},...srcs);
-  el.addEventListener('play',()=>{const keep=pendingEnd;pendingEnd=null;stopAll();keep&&keep();document.querySelectorAll('audio:not([data-silent])').forEach(a=>{if(a!==el)a.pause();});audio();
-    if(!SG.mediaNodes.get(el)){/* connect on first play so a later "Show the notes" does not interrupt */try{const n=ctx.createMediaElementSource(el);n.connect(mix);SG.mediaNodes.set(el,n);}catch(e){}}});
+  el.addEventListener('play',()=>{stopAll();document.querySelectorAll('audio:not([data-silent])').forEach(a=>{if(a!==el)a.pause();});
+    if(SG.cur&&SG.cur.el===el&&!SG.raf)SG.raf=requestAnimationFrame(meterLoop);});
   return h('div',{class:'clip'},h('div',{class:'meta'},h('b',null,`${r.t} · ${r.who}`),h('small',null,`${r.len} · `,DEEDS[r.lic]?h('a',{href:DEEDS[r.lic],target:'_blank',rel:'noopener noreferrer license'},r.lic):r.lic,' · ',h('a',{href:'https://commons.wikimedia.org/wiki/File:'+decodeURIComponent(name),target:'_blank',rel:'noopener noreferrer'},'source on Wikimedia Commons ↗'))),
     el,h('button',{class:'btn small',onclick:()=>showNotes(el)},'Show the notes'));}
 
@@ -1446,7 +1450,7 @@ function showTerms(){modal('Terms of use and privacy',[
   h('p',null,'This is a free educational tool for learning to hear and sing the maqamat. It is offered "as is", without any warranty. It does not replace a qualified teacher of Quran recitation or tajweed. The step sizes are simplified textbook values, and the computer voice and guide melodies are teaching aids, not models of correct recitation.'),
   h('p',null,'Use it at your own risk and within your limits. Rest your voice if singing hurts, and keep the volume moderate, especially with headphones. To the extent the law allows, the authors are not liable for any loss arising from its use.'),
   h('h3',null,'Respect for the Quran'),
-  h('p',null,'The ayat are shown for learning and reflection. Please treat the text with respect. If you find a mistake in the Arabic, please report it so it can be corrected.'),
+  h('p',null,'The ayat are shown for learning and reflection. Please treat the text with respect. If you find a mistake in the Arabic, please ',h('a',{href:'https://github.com/furanite/maqaamaat-abyaat/issues',target:'_blank',rel:'noopener noreferrer'},'report it'),' so it can be corrected.'),
   h('h3',null,'Privacy'),
   h('ul',{style:'margin:0;padding-left:1.2em;display:grid;gap:4px'},
     h('li',null,'Progress, settings and your reference recordings are stored only in your browser on this device (local storage and IndexedDB). This page sends none of it to a server. Clearing your browser data deletes it.'),
@@ -1454,7 +1458,7 @@ function showTerms(){modal('Terms of use and privacy',[
     h('li',null,'The website host (for example GitHub Pages) receives the usual request logs, such as your IP address, when you open the page. Fonts are served from the same site, not from Google. When you press play on a real recording, it streams from Wikimedia Commons. Links to YouTube open YouTube. Those services receive your IP address and follow their own privacy policies.'),
     h('li',null,'If you open the course inside Claude, progress can also be saved to your Claude account so that it follows you.')),
   h('h3',null,'Recordings and licences'),
-  h('p',null,'The real recordings are streamed from Wikimedia Commons under the licences shown next to each one (CC0, public domain, CC BY 4.0 or CC BY-SA 4.0), with credit to the people named there. Licences are as stated by the uploaders on Commons. If you are a rights holder and believe a recording is listed in error, please get in touch and it will be removed.'),
+  h('p',null,'The real recordings are streamed from Wikimedia Commons under the licences shown next to each one (CC0, public domain, CC BY 4.0 or CC BY-SA 4.0), with credit to the people named there. Licences are as stated by the uploaders on Commons. If you are a rights holder and believe a recording is listed in error, ',h('a',{href:'https://github.com/furanite/maqaamaat-abyaat/issues',target:'_blank',rel:'noopener noreferrer'},'open an issue on the project page'),' and it will be removed.'),
   h('p',null,'Recordings you add yourself must be ones you have the right to use. They stay on your device.'),
   h('p',null,'Fonts: Amiri, Reem Kufi and IBM Plex are used under the SIL Open Font License 1.1 (licence files are in the fonts folder). The course text, code and computer-made sounds belong to the course author, Moinuddeen.'),
   h('p',{class:'legend'},'Last updated 20 November 2026.')],{wide:true});}
