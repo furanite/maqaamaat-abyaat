@@ -19,3 +19,5 @@ It is a single `index.html` with no build step, plus `sw.js` and `manifest.webma
 - Fonts: Amiri, Reem Kufi, IBM Plex Sans and IBM Plex Sans Arabic, under the SIL Open Font License 1.1 (see `fonts/OFL-*.txt`).
 - Real recordings are streamed from Wikimedia Commons under the licences shown next to each one in the page (CC0, public domain, CC BY 4.0, CC BY-SA 4.0). They are not copied into this repository.
 - The terms and privacy text in the page is a template, not legal advice.
+
+Author: Moinuddeen
