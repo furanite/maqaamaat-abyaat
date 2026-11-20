@@ -376,7 +376,7 @@ footer .author{font-family:var(--f-display);color:var(--gold);font-size:.95rem;t
     <div class="actions"><button class="btn" id="tipsbtn">Tips for best results</button><button class="btn" id="termsbtn">Terms and privacy</button></div>
     <p>The step sizes here are the usual textbook ones. Real reciters bend the middle steps a little, by region and by taste, so let real recitations and a qualified teacher be your final guide.</p>
     <p class="saved" id="saved">Progress is saved in this browser.</p>
-    <p class="author">Author: <b>Moinuddeen</b></p>
+    <p class="author">Author: <b>Moinuddeen</b> · <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer license">CC BY-NC 4.0</a></p>
   </div>
 </footer>
 
@@ -1456,9 +1456,9 @@ function showTerms(){modal('Terms of use and privacy',[
     h('li',null,'The website host (for example GitHub Pages) receives the usual request logs, such as your IP address, when you open the page. Fonts are served from the same site, not from Google. When you press play on a real recording, it streams from Wikimedia Commons. Links to YouTube open YouTube. Those services receive your IP address and follow their own privacy policies.'),
     h('li',null,'If you open the course inside Claude, progress can also be saved to your Claude account so that it follows you.')),
   h('h3',null,'Recordings and licences'),
-  h('p',null,'The real recordings are streamed from Wikimedia Commons under the licences shown next to each one (CC0, public domain, CC BY 4.0 or CC BY-SA 4.0), with credit to the people named there. Licences are as stated by the uploaders on Commons. If you are a rights holder and believe a recording is listed in error, ',h('a',{href:'https://github.com/furanite/maqaamaat-abyaat/issues',target:'_blank',rel:'noopener noreferrer'},'open an issue on the project page'),' and it will be removed.'),
+  h('p',null,'The real recordings are streamed from Wikimedia Commons under the licences shown next to each one (CC0, CC BY 4.0, CC BY-SA 4.0, or public domain for the 1885 recording), with credit to the people named there. Licences are as stated by the uploaders on Commons. If you are a rights holder and believe a recording is listed in error, ',h('a',{href:'https://github.com/furanite/maqaamaat-abyaat/issues',target:'_blank',rel:'noopener noreferrer'},'open an issue on the project page'),' and it will be removed.'),
   h('p',null,'Recordings you add yourself must be ones you have the right to use. They stay on your device.'),
-  h('p',null,'Fonts: Amiri, Reem Kufi and IBM Plex are used under the SIL Open Font License 1.1 (licence files are in the fonts folder). The course text, code and computer-made sounds belong to the course author, Moinuddeen.'),
+  h('p',null,'Fonts: Amiri, Reem Kufi and IBM Plex are used under the SIL Open Font License 1.1 (licence files are in the fonts folder). The course text, code and computer-made sounds are © 2026 Moinuddeen and licensed under ',h('a',{href:'https://creativecommons.org/licenses/by-nc/4.0/',target:'_blank',rel:'noopener noreferrer license'},'CC BY-NC 4.0'),': you may share and adapt them for non-commercial use, with credit. This does not cover the Quran text, the fonts or the recordings, which keep their own terms.'),
   h('p',{class:'legend'},'Last updated 20 November 2026.')],{wide:true});}
 function celebrate(st){const title=st.name.replace(/^.*?·\s*/,'');const sparks=h('div',{class:'sparks','aria-hidden':'true'});
   for(let i=0;i<22;i++)sparks.append(h('i',{style:`left:${Math.random()*100}%;animation-delay:${(Math.random()*1.2).toFixed(2)}s;transform:scale(${(.6+Math.random()*.9).toFixed(2)})`}));
