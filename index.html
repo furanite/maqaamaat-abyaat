@@ -6,7 +6,7 @@
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Hearing the Maqamat</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="theme-color" content="#0a3b30">
+<meta name="theme-color" id="themecolor" content="#0a3b30">
 <meta name="author" content="Moinuddeen">
 <meta name="description" content="A gentle course in the maqamat of Quran recitation for complete beginners: daily lessons, listening tests and a pitch meter.">
 <meta property="og:type" content="website">
@@ -57,17 +57,17 @@
 /* three skins chosen by the viewer; they override the system light/dark tokens above */
 html:root[data-skin="milk"]{
   --bg:#f7f2e8; --surface:#fffcf6; --sunk:#efe6d4; --ink:#2a2216; --muted:#6c5f4c; --line:#e2d5bc;
-  --emerald:#86621f; --emerald-ink:#fffcf6; --gold:#9d7522; --gold-soft:#d2b06a; --lapis:#3c5a8c;
-  --band:#f1e6cf; --band-ink:#2a2216; --band-line:#ad8636; --tile-op:.55;
+  --emerald:#86621f; --emerald-ink:#fffcf6; --gold:#876118; --gold-soft:#d2b06a; --lapis:#3c5a8c;
+  --band:#f1e6cf; --band-ink:#2a2216; --band-line:#ad8636; --band-text:#735310; --tile-op:.55;
   --good:#2d7347; --bad:#a43f2e;
   --bayati:#94650f; --hijaz:#9a392b; --rast:#33548f; --saba:#68448c; --nahawand:#26766b; --kurd:#973d60; --ajam:#8a5a00; --sikah:#456b2c;
   color-scheme:light}
 html:root[data-skin="emerald"]{
   --bg:#f1f4f1; --surface:#ffffff; --sunk:#e5ece7; --ink:#0f251e; --muted:#4f665d; --line:#d0dcd4;
-  --emerald:#0c5a46; --emerald-ink:#ffffff; --gold:#9a6f1c; --gold-soft:#c9a24a; --lapis:#25438f;
+  --emerald:#0c5a46; --emerald-ink:#ffffff; --gold:#8c6414; --gold-soft:#c9a24a; --lapis:#25438f;
   --band:#0a3b30; --band-ink:#f3efe2; --band-line:#c9a24a; --tile-op:.38;
   --good:#167045; --bad:#a3322a;
-  --bayati:#a26d17; --hijaz:#a2352d; --rast:#2b4ea6; --saba:#693a96; --nahawand:#0f7c78; --kurd:#a23a66; --ajam:#8a5a00; --sikah:#3d6b2f;
+  --bayati:#8f5f10; --hijaz:#a2352d; --rast:#2b4ea6; --saba:#693a96; --nahawand:#0f7c78; --kurd:#a23a66; --ajam:#8a5a00; --sikah:#3d6b2f;
   color-scheme:light}
 html:root[data-skin="night"]{
   --bg:#0a0f1d; --surface:#111830; --sunk:#19223f; --ink:#efe9da; --muted:#a7acbf; --line:#263152;
@@ -99,9 +99,9 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,[r
 .band{position:relative;background:var(--band);color:var(--band-ink);overflow:hidden}
 .band svg.tile{position:absolute;inset:0;width:100%;height:100%;opacity:var(--tile-op,.38);color:var(--band-line)}
 .band .wrap{position:relative;padding-block:26px 22px;display:grid;gap:6px;text-align:center;justify-items:center}
-.basmala{font-family:var(--f-ar);font-size:1.35rem;color:var(--band-line);line-height:1.6}
+.basmala{font-family:var(--f-ar);font-size:1.35rem;color:var(--band-text,var(--band-line));line-height:1.6}
 .band h1{font-size:clamp(1.9rem,6vw,2.7rem)}
-.band h1 .ar{display:block;font-size:.62em;font-weight:700;color:var(--band-line);line-height:1.4}
+.band h1 .ar{display:block;font-size:.62em;font-weight:700;color:var(--band-text,var(--band-line));line-height:1.4}
 .band p{max-width:52ch;opacity:.88;font-size:.98rem}
 .band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:repeating-linear-gradient(90deg,var(--band-line) 0 10px,transparent 10px 14px)}
 
@@ -145,7 +145,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,[r
 .btn.primary{background:var(--emerald);color:var(--emerald-ink);border-color:var(--emerald);font-weight:600}
 .btn.gold{background:var(--gold);color:var(--surface);border-color:var(--gold);font-weight:600}
 .btn.rec{border-color:var(--bad);color:var(--bad)}
-.btn.rec[aria-pressed="true"]{background:var(--bad);color:#fff}
+.btn.rec[aria-pressed="true"]{background:var(--bad);color:var(--surface)}
 .btn:disabled{opacity:.5;cursor:default}
 .btn .ic{font-size:.72em}
 .btn.small{min-height:36px;padding:5px 12px;font-size:.85rem}
@@ -196,9 +196,10 @@ ol.sing input{margin-top:5px;accent-color:var(--emerald);flex:none;width:18px;he
 .stairs .tread.fp{fill:color-mix(in srgb,var(--mc) 22%,var(--surface));stroke:var(--mc)}
 .stairs .tread.hit{fill:var(--mc)}
 .stairs g.st{cursor:pointer}
-.stairs text{font-family:var(--f-body);fill:var(--ink);font-size:11px}
+.stairs text{font-family:var(--f-body);fill:var(--ink);font-size:11px;pointer-events:none}
+.stairs .tread{transition:fill .2s ease}
 .stairs text.num{font-weight:700;font-size:12px}
-.stairs text.sz{fill:var(--muted);font-size:9.5px}
+.stairs text.sz{fill:var(--muted);font-size:10.5px}
 .stairs text.sz.mid{fill:var(--gold);font-weight:700}
 .stairs text.sz.jmp{fill:var(--hijaz);font-weight:700}
 .stairs text.home{fill:var(--emerald);font-weight:700;font-size:10px}
@@ -207,7 +208,8 @@ ol.sing input{margin-top:5px;accent-color:var(--emerald);flex:none;width:18px;he
 
 /* test */
 .test{border:2px solid var(--gold-soft);background:var(--surface);border-radius:var(--r);padding:18px;display:grid;gap:14px}
-.test .qn{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px}
+.test .qn{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px 12px}
+.test .qn .quit{margin-left:auto;border:0;background:none;color:var(--muted);text-decoration:underline;font-size:.82rem;padding:6px 2px;min-height:32px}
 .progress{height:6px;background:var(--sunk);border-radius:99px;overflow:hidden}
 .progress i{display:block;height:100%;background:var(--gold);transition:width .2s}
 .test .prompt{font-family:var(--f-display);font-size:1.25rem;line-height:1.35}
@@ -271,7 +273,7 @@ dl.facts dd{margin:0}
 .guide-res{display:grid;gap:6px}
 .dots{display:flex;gap:6px;flex-wrap:wrap}
 .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:700;background:var(--sunk);color:var(--muted)}
-.dot.ok{background:var(--good);color:#fff} .dot.miss{background:var(--bad);color:#fff} .dot.now{outline:2px solid var(--gold)}
+.dot.ok{background:var(--good);color:var(--surface)} .dot.miss{background:var(--bad);color:var(--surface)} .dot.now{outline:2px solid var(--gold)}
 /* ayat */
 .ayah{display:grid;gap:6px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg)}
 .ayah .words{direction:rtl;display:flex;flex-wrap:wrap;gap:4px 10px;font-family:var(--f-ar);font-size:1.7rem;line-height:1.9}
@@ -313,6 +315,34 @@ footer{padding-block:24px 48px;border-top:1px solid var(--line);color:var(--mute
 footer .wrap{display:grid;gap:8px}
 footer .author{font-family:var(--f-display);color:var(--gold);font-size:.95rem;text-align:center;padding-top:6px;border-top:1px solid var(--line)}
 @media (prefers-reduced-motion: reduce){.progress i{transition:none}}
+/* motion: views and questions ease in, buttons answer the finger, answers pulse or shake */
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}50%{transform:translateX(5px)}80%{transform:translateX(-3px)}}
+.view.enter>*{animation:rise .5s cubic-bezier(.2,.8,.3,1) both}
+.view.enter>*:nth-child(2){animation-delay:.06s}.view.enter>*:nth-child(3){animation-delay:.12s}.view.enter>*:nth-child(4){animation-delay:.18s}.view.enter>*:nth-child(n+5){animation-delay:.24s}
+.test>*{animation:rise .38s cubic-bezier(.2,.8,.3,1) both}
+.test>*:nth-child(n+3){animation-delay:.05s}.test>*:nth-child(n+5){animation-delay:.1s}
+.fb>*{animation:rise .3s ease both}
+.btn,.toggle,.opt,.chip,.seg button,.lrow,.tabs a,.skin{transition:transform .14s ease,background-color .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease,opacity .22s ease}
+.btn:active:not(:disabled),.toggle:active,.opt:active:not(:disabled),.chip:active,.seg button:active,.lrow:active:not([aria-disabled]),.skin:active{transform:scale(.96)}
+.opt.right{animation:pulse .5s ease}
+.opt.wrong{animation:shake .4s ease}
+.celebrate{animation:fadein .25s ease both}
+.celebrate .card{animation:rise .4s cubic-bezier(.2,.8,.3,1) both}
+.settings:not([hidden]){animation:fadein .2s ease both}
+.status{transition:color .2s ease}
+@media (prefers-reduced-motion: reduce){.view.enter>*,.test>*,.fb>*,.opt.right,.opt.wrong,.celebrate,.celebrate .card,.settings:not([hidden]){animation:none}
+  .btn,.toggle,.opt,.chip,.seg button,.lrow,.tabs a,.skin,.stairs .tread,.status{transition:none}.btn:active:not(:disabled),.toggle:active,.opt:active:not(:disabled),.chip:active,.seg button:active,.lrow:active:not([aria-disabled]),.skin:active{transform:none}}
+/* sing: chart of a recorded take, drill choices, best score */
+.takechart{border:1px solid var(--line);border-radius:10px;background:var(--bg);overflow:hidden}
+.takechart canvas{display:block;width:100%;height:220px}
+.takesum{font-size:.93rem}
+.chip .best{font-size:.72rem;color:var(--good);font-weight:700}
+.nudge{border-color:var(--gold-soft)}
+#testbox,.test{scroll-margin-top:128px}
+a.btn{text-decoration:none}
 </style>
 </head>
 <body>
@@ -334,8 +364,8 @@ footer .author{font-family:var(--f-display);color:var(--gold);font-size:.95rem;t
 <div class="bar" role="region" aria-label="Sound controls">
   <div class="wrap">
     <div class="barrow">
-      <button class="btn" id="stop" title="Stop all sound (Esc)"><span class="ic" aria-hidden="true">■</span> Stop</button>
-      <button class="toggle" id="drone" aria-pressed="false" title="A steady home sound to sing against">Hum<span class="wide-only">along</span></button>
+      <button class="btn" id="stop" title="Stop all sound (Esc)" aria-label="Stop all sound"><span class="ic" aria-hidden="true">■</span><span class="wide-only">Stop</span></button>
+      <button class="toggle" id="drone" aria-pressed="false" title="A steady home sound to sing against">Hum along</button>
       <div class="status" id="status" aria-live="polite"></div>
       <button class="btn" id="setbtn" aria-expanded="false" aria-controls="settings"><span aria-hidden="true">⚙</span><span class="wide-only">Settings</span><span class="sr-only">Settings</span></button>
     </div>
@@ -473,7 +503,7 @@ const DAYS={
 1:{t:'High and low',s:'What "pitch" means',
  learn:['Every sound your voice makes is somewhere between <b>low</b> (deep, like a sigh) and <b>high</b> (light, like a call). Musicians call this <b>pitch</b>. That is all a "note" is: one pitch held steady.',
  'Before learning any maqam, your ear needs one skill: hearing whether a sound went <b>up</b> or <b>down</b>. Today we only train that.',
- 'Open Settings (⚙) and choose "Your voice" so the sounds sit where you speak. If a sound feels uncomfortable to hum, pick a different setting.'],
+ 'Open Settings (⚙) and choose "Your voice" so the sounds sit where you speak. If a sound feels uncomfortable to hum, pick a different setting. Or open the <b>Sing</b> tab and press "Find my voice": hum one comfortable note and the page chooses for you.'],
  listen:[{label:'Low, then high',why:'A big move up.',seq:[[-500,1.6,'Low'],[400,1.6,'High']]},{label:'High, then low',why:'A big move down.',seq:[[400,1.6,'High'],[-500,1.6,'Low']]},{label:'Up and down',why:'Follow it with your hand: raise it as the sound rises.',seq:[[0,1],[300,1],[700,1],[300,1],[0,1.6]]}],
  sing:['Turn on "Hum along" at the top. Hum quietly with your mouth closed until your hum and the sound feel like one.','Slide your voice up like a siren, then back down to the hum.','Hum low, then high, then low, with the "Up and down" button.'],
  test:[['hl',{min:300,max:700},10]]},
@@ -488,7 +518,7 @@ const DAYS={
  learn:['Maqamat differ by small amounts. So today we train your ear to notice when two sounds are <b>almost the same</b> but not quite.',
  'If you are unsure, hum the first sound in your head, then compare. It gets easier every day.'],
  listen:[{label:'Same',why:'Two identical sounds.',seq:[[0,1.4],[0,1.4]]},{label:'Slightly different',why:'The second is a tiny bit higher.',seq:[[0,1.4],[100,1.4]]},{label:'Clearly different',why:'A bigger move up.',seq:[[0,1.4],[300,1.4]]}],
- sing:['Hum home, then hum a tiny bit higher. Go back and forth five times.','Record yourself on your phone and listen back. Did you move or stay?'],
+ sing:['Hum home, then hum a tiny bit higher. Go back and forth five times.','Record yourself on the Sing tab ("Record my take") and listen back. Did you move or stay?'],
  test:[['sd',{diffs:[100,200,300]},5],['hl',{min:100,max:250},5]]},
 4:{t:'Tiny step and full step',s:'Two kinds of step',
  learn:['When the voice moves up from one stair to the next, the step can be different sizes. Today we learn two:',
@@ -499,10 +529,10 @@ const DAYS={
  test:[['step',{sizes:[100,200]},8],['hl',{min:100,max:200},2]]},
 5:{t:'The middle step',s:'The secret of Arabic music',
  learn:['Here is what makes Arabic recitation special. Between the tiny step and the full step there is a <b>middle step</b>. Western music does not use it, so it may sound slightly "out of tune" to you at first. It is not. It is the colour of the maqamat.',
- 'Three of our six maqamat use the middle step right at the start. If you can hear it, you have learned half of this course.',
+ 'Two of our six maqamat, Bayati and Saba, begin with the middle step, and Rast has it one stair later. If you can hear it, you have learned half of this course.',
  'Do not worry if today’s test is hard. You will repeat this skill nearly every day.'],
  listen:[{label:'Tiny, middle, full',why:'All three steps from home, in order.',seq:[[0,1,'Home'],[100,1.4,'Tiny'],[0,1,'Home'],[150,1.4,'Middle'],[0,1,'Home'],[200,1.4,'Full']]},{label:'Middle step alone',why:'Sit with it. Let it become familiar.',seq:[[0,1.4,'Home'],[150,2.2,'Middle step']]},{label:'Tiny or middle?',why:'Tiny first, then middle. The middle step is a little wider and calmer.',seq:[[0,1,'Home'],[100,1.5,'Tiny'],[0,1,'Home'],[150,1.5,'Middle'],[0,1,'Home'],[100,1.5,'Tiny'],[0,1,'Home'],[150,1.5,'Middle']]}],
- sing:['Sing home, then a full step. Now come down from the full step just a little. That is the middle step.','Echo the "Middle step alone" button five times.','Record yourself and compare with the button.'],
+ sing:['Sing home, then a full step. Now come down from the full step just a little. That is the middle step.','Echo the "Middle step alone" button five times.','Record yourself on the Sing tab and compare with the button.'],
  test:[['step',{sizes:[100,200]},2],['step',{sizes:[100,150]},3],['step',{sizes:[100,150,200]},3],['sd',{diffs:[50,100]},2]]},
 6:{t:'Meet Bayati',k:'bayati',s:'Home, then a middle step',
  learn:['A maqam is a staircase of eight stairs. Stair 1 is home. The first four stairs are the maqam’s <b>fingerprint</b>: learn those and you can recognise it.',
@@ -529,9 +559,9 @@ const DAYS={
  '<a href="https://www.youtube.com/results?search_query=maqam+bayati+quran+recitation" target="_blank" rel="noopener">Find Bayati recitations on YouTube ↗</a>'],
  listen:[{label:'Bayati phrase',m:'phrase',k:'bayati',why:'Compare with the real recitation.'}],
  sing:['Listen to one full recitation in Bayati.','Recite one short ayah you know in Bayati: start home, rise to stair 3, end home.'],
- test:[['home',{},3],['isb',{others:['rast','hijaz','kurd','saba'],clip:'phrase'},4],['step',{sizes:[100,150,200]},3]]},
+ test:[['home',{},3],['isb',{others:['rast','hijaz','kurd','nahawand'],clip:'phrase'},4],['step',{sizes:[100,150,200]},3]]},
 10:{t:'Review',s:'Everything so far',
- learn:['A review day. No new ideas. If any test so far felt shaky, go back to its lesson in "All 28 days" and repeat its listening buttons.'],
+ learn:['A review day. No new ideas. If any test so far felt shaky, go back to its lesson on the "Days" tab and repeat its listening buttons.'],
  listen:[{label:'Tiny, middle, full',why:'The three steps.',seq:[[0,1,'Home'],[100,1.4,'Tiny'],[0,1,'Home'],[150,1.4,'Middle'],[0,1,'Home'],[200,1.4,'Full']]},{label:'Bayati fingerprint',m:'finger',k:'bayati',why:''}],
  sing:['"Echo me" in Bayati twice.','Recite Al-Fatiha in Bayati with the hum on.'],
  test:[['step',{sizes:[100,150,200]},4],['isb',{others:['rast','hijaz','kurd'],clip:'finger'},3],['sd',{diffs:[50,100,150]},3]]},
@@ -539,7 +569,7 @@ const DAYS={
  learn:['Hijaz begins with a <b>tiny step</b>, and then a <b>big jump</b>, bigger than a full step. That stretched gap is the sound many people call "Middle Eastern". Many adhans use it.',
  'Hijaz’s fingerprint is <b>tiny step, big jump, tiny step</b>.'],
  listen:[{label:'First four stairs',m:'finger',k:'hijaz',why:'Listen for the jump between stairs 2 and 3.'},{label:'Big jump vs no jump',why:'Hijaz first, then the same start without the jump.',seq:[[0,.9],[100,.9],[400,1.6,'Big jump'],[0,.9],[100,.9],[300,1.6,'No jump']]}],
- sing:['Sing stairs 1 and 2 close together.','Now stretch from stair 2 up to stair 3. Exaggerate it.','"Echo me" in Hijaz (button in "The maqamat").'],
+ sing:['Sing stairs 1 and 2 close together.','Now stretch from stair 2 up to stair 3. Exaggerate it.','"Echo me" in Hijaz (button on the "Maqamat" tab).'],
  test:[['jump',{},6],['step',{sizes:[100,150,200,300]},4]]},
 12:{t:'Bayati or Hijaz?',s:'Your first real comparison',
  learn:['Now the real skill. When a phrase starts, ask yourself: <b>is stair 2 tiny or middle?</b>',
@@ -641,7 +671,7 @@ Object.assign(DAYS,{
  learn:['Bonus stage: two more maqamat that reciters use. <b>Ajam</b> starts with <b>two full steps</b>, then a tiny step. It is the brightest maqam, close to the Western "happy" scale.',
  'Ajam, Rast and Nahawand all start with a full step. Listen to <b>stair 3</b>: highest in Ajam (bright), in between in Rast, lowest in Nahawand (sad).'],
  listen:[{label:'Ajam fingerprint',m:'finger',k:'ajam',why:'Full, full, tiny.'},{label:'Three different stair 3s',why:'Ajam, then Rast, then Nahawand. Only stair 3 moves.',seq:[[0,.8],[200,.8],[400,1.5,'Ajam: bright'],[0,.8],[200,.8],[350,1.5,'Rast: in between'],[0,.8],[200,.8],[300,1.5,'Nahawand: sad']]},{label:'Ajam phrase',m:'phrase',k:'ajam',why:''}],
- sing:['"Echo me" in Ajam (button in "Maqamat").','Sing stairs 1, 2, 3 in Ajam, then in Rast, then in Nahawand. Feel only stair 3 change.'],
+ sing:['"Echo me" in Ajam (button on the "Maqamat" tab).','Sing stairs 1, 2, 3 in Ajam, then in Rast, then in Nahawand. Feel only stair 3 change.'],
  test:[['which',{set:['rast','nahawand','ajam'],clip:'finger'},7],['step',{sizes:[100,150,200]},3]]},
 30:{t:'Meet Sikah',k:'sikah',s:'A middle step, then a full step',
  learn:['<b>Sikah</b> starts with a <b>middle step</b> like Bayati, but then climbs a <b>full step</b>. Its home sound seems to float, and reciters love to rest on it.',
@@ -745,7 +775,7 @@ function voice(hz,t0,dur,vol=0.2){
 }
 let timbre='voice';
 /* sung "aah": a buzzing source shaped by three vowel resonances, with a short glide from the previous note like a reciter */
-function singVoice(hz,t0,dur,prevHz,vol=0.75){
+function singVoice(hz,t0,dur,prevHz,vol=0.75,steady=false){
   const c=ctx,g=c.createGain();
   g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol*0.55,t0+0.05);g.gain.linearRampToValueAtTime(vol,t0+0.16);
   g.gain.setValueAtTime(vol,Math.max(t0+0.17,t0+dur-0.12));g.gain.linearRampToValueAtTime(0,t0+dur+0.06);
@@ -753,8 +783,8 @@ function singVoice(hz,t0,dur,prevHz,vol=0.75){
   for(const x of[o,o2]){if(prevHz&&Math.abs(prevHz-hz)>1){x.frequency.setValueAtTime(prevHz,t0);x.frequency.exponentialRampToValueAtTime(hz,t0+0.1);}else x.frequency.setValueAtTime(hz,t0);}
   /* vibrato that starts after the note settles, plus a slow drift so held notes feel alive */
   const lfo=c.createOscillator();lfo.frequency.value=5.4;const lg=c.createGain();
-  lg.gain.setValueAtTime(0,t0);lg.gain.setValueAtTime(0,t0+Math.min(0.3,dur*.4));lg.gain.linearRampToValueAtTime(hz*0.011,t0+Math.min(0.8,dur));
-  const drift=c.createOscillator();drift.frequency.value=0.6;const dg=c.createGain();dg.gain.value=hz*0.002;
+  lg.gain.setValueAtTime(0,t0);lg.gain.setValueAtTime(0,t0+Math.min(0.3,dur*.4));lg.gain.linearRampToValueAtTime(steady?0:hz*0.011,t0+Math.min(0.8,dur));
+  const drift=c.createOscillator();drift.frequency.value=0.6;const dg=c.createGain();dg.gain.value=steady?0:hz*0.002;
   lfo.connect(lg);drift.connect(dg);for(const x of[o,o2]){lg.connect(x.frequency);dg.connect(x.frequency);}
   const mixv=c.createGain(),m2=c.createGain();m2.gain.value=0.35;o2.connect(m2);
   const F=hz>200?[[800,1,90],[1200,.5,100],[2800,.18,140],[3500,.08,200]]:[[700,1,80],[1150,.5,90],[2600,.16,120],[3300,.07,180]];
@@ -765,21 +795,21 @@ function singVoice(hz,t0,dur,prevHz,vol=0.75){
 }
 function setStatus(t,mode){const s=$('#status');s.textContent=t;s.dataset.mode=mode||'';}
 /* stopAll(true) is a user stop (Stop button, Esc, changing view): it also ends guided drills and pauses real recordings */
-function stopAll(user){if(pendingEnd){const f=pendingEnd;pendingEnd=null;f();}for(const o of active){try{o.stop();}catch(e){}}active=[];timers.forEach(clearTimeout);timers=[];playingUntil=0;if(onClear){const f=onClear;onClear=null;f();}setStatus('');
+function stopAll(user){if(pendingEnd){const f=pendingEnd;pendingEnd=null;f();}for(const o of active){try{o.stop();}catch(e){}}active=[];timers.forEach(clearTimeout);timers=[];playingUntil=0;if(onClear){const f=onClear;onClear=null;f();}setStatus('');droneTune(0);
   if(user){document.querySelectorAll('audio:not([data-silent])').forEach(a=>{try{a.pause();}catch(e){}});const hs=stopHooks;stopHooks=[];hs.forEach(f=>{try{f();}catch(e){}});}}
 /* seq items: [cents, beats, label?, tag?] */
 function pauseMedia(){document.querySelectorAll('audio:not([data-silent])').forEach(a=>{try{a.pause();}catch(e){}});}
-function playSeq(seq,{onNote,onEnd,onCancel,echo=false,offset=0,label='Playing'}={}){
-  stopAll();pauseMedia();pendingEnd=onCancel||null;const c=audio();const lead=0.08;let t=c.currentTime+lead;const t0=t;let prev=null;
+function playSeq(seq,{onNote,onEnd,onCancel,echo=false,offset=0,label='Playing',steady=false}={}){
+  stopAll();pauseMedia();pendingEnd=onCancel||null;const c=audio();droneTune(offset);const lead=0.08;let t=c.currentTime+lead;const t0=t;let prev=null;
   const at=x=>Math.max(0,(x-t0+lead)*1000);
   seq.forEach(([cents,b,lab,tag],i)=>{
-    const d=b*BEAT,hz=tonic*Math.pow(2,(cents+offset)/1200);if(timbre==='voice'){singVoice(hz,t,d*(echo?0.94:0.99),echo?null:prev);}else voice(hz,t,d*0.94);prev=hz;
+    const d=b*BEAT,hz=tonic*Math.pow(2,(cents+offset)/1200);if(timbre==='voice'){singVoice(hz,t,d*(echo||steady?0.94:0.99),echo||steady?null:prev,0.75,steady);}else voice(hz,t,d*0.94);prev=hz;
     timers.push(setTimeout(()=>{onNote&&onNote(tag,i,'listen');setStatus(echo?'Listen…':(lab||label),'listen');},at(t)));
     t+=d;
     if(echo){const g=t;timers.push(setTimeout(()=>{onNote&&onNote(tag,i,'sing');setStatus('Your turn: sing it','sing');},at(g)));t+=d+0.2;}
   });
   playingUntil=performance.now()+at(t);
-  timers.push(setTimeout(()=>{pendingEnd=null;onNote&&onNote(null,-1);setStatus('');onClear=null;onEnd&&onEnd();},at(t)+60));
+  timers.push(setTimeout(()=>{pendingEnd=null;onNote&&onNote(null,-1);setStatus('');onClear=null;droneTune(0);onEnd&&onEnd();},at(t)+60));
 }
 /* recordings (your takes, a teacher's clips) play through the same output, without the room echo */
 const BUF=new WeakMap();
@@ -792,6 +822,8 @@ async function playBlob(b,{label='Playing a recording',onEnd,onCancel}={}){
 /* resolves 'end' when the sequence finishes, 'cancel' if anything stops or replaces it */
 const playP=(seq,o={})=>new Promise(res=>playSeq(seq,Object.assign({},o,{onEnd:()=>res('end'),onCancel:()=>res('cancel')})));
 const pauseFor=ms=>new Promise(res=>{const t=setTimeout(()=>{pendingEnd=null;res('end');},ms);timers.push(t);pendingEnd=()=>res('cancel');});
+/* when a sound is played from a moved home (random-home lessons), the hum moves with it and returns afterwards */
+function droneTune(cents){if(!drone||!ctx||drone.off===cents)return;drone.off=cents;const k=Math.pow(2,cents/1200),now=ctx.currentTime;drone.oscs.forEach((o,i)=>o.frequency.setTargetAtTime(drone.f[i]*k,now,0.04));}
 function setDrone(on){
   $('#drone').setAttribute('aria-pressed',String(on));
   if(drone){const d=drone;drone=null;const now=ctx.currentTime;d.g.gain.cancelScheduledValues(now);d.g.gain.setValueAtTime(d.g.gain.value,now);d.g.gain.linearRampToValueAtTime(0,now+0.35);d.oscs.forEach(o=>o.stop(now+0.4));}
@@ -799,30 +831,39 @@ function setDrone(on){
   const c=audio(),g=c.createGain(),lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=700;
   g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(0.11,c.currentTime+0.8);
   const oscs=[[tonic/2,'sawtooth',0.6],[tonic,'triangle',0.8],[tonic*1.5,'triangle',0.15]].map(([f,type,v])=>{const o=c.createOscillator();o.type=type;o.frequency.value=f;const og=c.createGain();og.gain.value=v;o.connect(og);og.connect(lp);o.start();return o;});
-  lp.connect(g);g.connect(out);drone={g,oscs};
+  lp.connect(g);g.connect(out);drone={g,oscs,f:[tonic/2,tonic,tonic*1.5],off:0};
 }
 const seqFinger=k=>{const s=M[k].steps;return [[s[0],1,null,0],[s[1],1,null,1],[s[2],1,null,2],[s[3],1.4,null,3],[s[2],.8,null,2],[s[1],.8,null,1],[s[0],1.6,null,0]];};
 const seqScale=k=>{const s=M[k].steps;return s.map((c,i)=>[c,i===7?1.4:.85,null,i]).concat(s.slice(0,7).reverse().map((c,j)=>[c,j===6?1.6:.85,null,6-j]));};
-const seqPhrase=k=>{const s=M[k].steps;return M[k].phrase.map(([d,b])=>[s[d],b,null,d]);};
+/* test tunes: every maqam is sung to the same pool of tunes, so only the step sizes tell them apart, never the rhythm or length.
+   Each tune starts at home and touches stairs 2, 3 and 4, where the maqamat differ. */
+const TUNES=[
+ [[0,1],[1,1],[2,1],[3,1.5],[2,.75],[1,1.5],[2,.75],[1,.75],[0,2]],
+ [[0,1],[1,1],[2,1.5],[3,1],[4,2],[3,1],[2,1.5],[1,1],[0,2]],
+ [[0,1.5],[1,1],[2,1.5],[1,.75],[0,1],[1,.75],[2,1],[3,1.5],[2,1],[1,1],[0,2]],
+ [[0,1],[1,.75],[0,.75],[1,1],[2,1.5],[3,1.5],[2,1],[1,1.5],[0,2]],
+ [[0,1.5],[1,1.5],[2,1],[3,2],[2,1],[1,1],[0,2]],
+ [[0,1],[1,1],[2,1],[3,1],[4,1.5],[3,.75],[2,.75],[3,1],[2,1],[1,1.5],[0,2]]];
+const seqPhrase=(k,tune)=>{const s=M[k].steps;return (tune||M[k].phrase).map(([d,b])=>[s[d],b,null,d]);};
 const seqEcho=k=>{const s=M[k].steps;return [0,1,2,3,4,3,2,1,0].map(d=>[s[d],1.6,null,d]);};
 const SEQ={finger:seqFinger,scale:seqScale,phrase:seqPhrase,echo:seqEcho};
 
 /* =================== STAIRS PICTURE =================== */
 const stairSets=[];
 function stairs(k){
-  const m=M[k],s=m.steps,W=340,H=170,sw=W/8,base=150,scale=120/1200;
+  const m=M[k],s=m.steps,W=340,H=176,sw=W/8,base=150,scale=120/1200;
   const ns='http://www.w3.org/2000/svg';
   const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`-4 -6 ${W+8} ${H+14}`);svg.setAttribute('role','group');svg.setAttribute('aria-label',`Staircase of ${m.name}: ${fp(k)}`);
   const treads=[];
   s.forEach((c,i)=>{
     const y=base-c*scale,x=i*sw;
     const g=document.createElementNS(ns,'g');g.setAttribute('class','st');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',`Play stair ${i+1}`);
-    const r=document.createElementNS(ns,'rect');r.setAttribute('x',x+1);r.setAttribute('y',y);r.setAttribute('width',sw-2);r.setAttribute('height',base-y+14);r.setAttribute('rx',3);r.setAttribute('class','tread'+(i<4?' fp':''));
+    const r=document.createElementNS(ns,'rect');r.setAttribute('x',x+1);r.setAttribute('y',y);r.setAttribute('width',sw-2);r.setAttribute('height',base-y+34);r.setAttribute('rx',3);r.setAttribute('class','tread'+(i<4?' fp':''));
     const tn=document.createElementNS(ns,'text');tn.setAttribute('x',x+sw/2);tn.setAttribute('y',y+15);tn.setAttribute('text-anchor','middle');tn.setAttribute('class','num');tn.textContent=i+1;
     g.append(r,tn);
-    if(c===0||c===1200){const th=document.createElementNS(ns,'text');th.setAttribute('x',x+sw/2);th.setAttribute('y',Math.min(y+29,base+10));th.setAttribute('text-anchor','middle');th.setAttribute('class','home');th.textContent='home';g.append(th);}
+    if(c===0||c===1200){const th=document.createElementNS(ns,'text');th.setAttribute('x',x+sw/2);th.setAttribute('y',y+28);th.setAttribute('text-anchor','middle');th.setAttribute('class','home');th.textContent='home';g.append(th);}
     if(i>0){const d=c-s[i-1],w=sizeWord(d);const tz=document.createElementNS(ns,'text');tz.setAttribute('x',x+sw/2);tz.setAttribute('y',y-4);tz.setAttribute('text-anchor','middle');tz.setAttribute('class','sz'+(d===150?' mid':d>=250?' jmp':''));tz.textContent=w;svg.append(tz);}
-    const play=()=>playSeq([[c,2.2,`${m.name}: stair ${i+1}`,i]],{onNote:hl(k)});
+    const play=()=>playSeq([[c,2.2,`${m.name}: stair ${i+1}`,i]],{onNote:hl(k),steady:true});
     g.addEventListener('click',play);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();play();}});
     svg.append(g);treads.push(r);
   });
@@ -834,21 +875,24 @@ function hl(k){return tag=>{const sets=stairSets.filter(x=>x.k===k&&x.treads[0].
 const legend=()=>h('p',{class:'legend',html:'Tap a stair to hear it. Coloured stairs are the fingerprint. Step sizes: tiny, <b class="mid">middle</b> (the Arabic step), full, <b class="jmp">big jump</b>.'});
 
 function listenButton(it){
-  const b=h('button',{class:'btn'},h('span',{class:'ic'},it.m==='echo'?'◉':'▶'),' '+it.label);
+  const b=h('button',{class:'btn'},h('span',{class:'ic'},it.m==='echo'?'◉':'▶'),' '+it.label);let presses=0;
   b.addEventListener('click',()=>{
     const ref=it.m==='phrase'&&useRef?pickClip(it.k):null;
     if(ref){playBlob(ref.blob,{label:`${M[it.k].name}: ${ref.label}`});return;}
-    if(it.seq)playSeq(it.seq.map(([c,bt,l])=>[c,bt,l]),{label:it.label});
-    else playSeq(SEQ[it.m](it.k),{label:`${M[it.k].name}`,onNote:hl(it.k),echo:it.m==='echo',offset:it.shift||0});
+    if(it.seq)playSeq(it.seq.map(([c,bt,l])=>[c,bt,l]),{label:it.label,steady:true});
+    else if(it.m==='phrase'){const n=presses++;playSeq(seqPhrase(it.k,n?TUNES[(n-1)%TUNES.length]:null),{label:`${M[it.k].name}`,onNote:hl(it.k),offset:it.shift||0});}
+    else playSeq(SEQ[it.m](it.k),{label:`${M[it.k].name}`,onNote:hl(it.k),echo:it.m==='echo',offset:it.shift||0,steady:it.m!=='scale'});
   });
   return b;
 }
 
 /* =================== PROGRESS =================== */
-let P={passed:{},tests:[],sing:{},lastPass:null,early:false,cx:[]};let justPassed=0;/* filled from storage once cleanProgress is defined, below */
+let P={passed:{},tests:[],sing:{},lastPass:null,early:false,cx:[],best:{}};let justPassed=0;/* filled from storage once cleanProgress is defined, below */
 let db=null,uid=null,saving=Promise.resolve();
+/* ask the browser to keep this site's data: without it, some browsers (Safari on iPhone above all) may clear it after a week away */
+function askPersist(){if(askPersist.done)return;askPersist.done=true;try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});}catch(e){}}
 function save(){
-  LS.set('mq.progress',P);
+  LS.set('mq.progress',P);if(Object.keys(P.passed).length)askPersist();
   if(db&&uid){const snap=JSON.parse(JSON.stringify(P));snap.updated=new Date().toISOString();saving=saving.then(()=>db.doc('learners/'+uid).set(snap)).then(()=>{$('#saved').textContent='Progress is saved to your account.';}).catch(()=>{$('#saved').textContent='Could not save to your account just now. Progress is kept in this browser.';});}
 }
 function currentDay(){for(let d=1;d<=LAST;d++)if(!P.passed[d])return d;return LAST+1;}
@@ -879,7 +923,8 @@ function gen(type,p){
     q.seq=path.map((d,i)=>[s[d],i===0||i===path.length-1?1.6:1]);q.explain=end?'It came back to the first sound and felt finished.':'It stopped somewhere else, so it felt unfinished.';q.compare=[[0,2,'Home sound']];}
   else if(type==='isb'){const yes=Math.random()<.5,k=yes?'bayati':rnd(p.others);
     q.prompt='Is this Bayati?';q.opts=[{id:'yes',label:'Yes, Bayati'},{id:'no',label:'No, something else'}];q.ans=yes?'yes':'no';q.k=k;
-    q.seq=(p.clip==='finger'?seqFinger:seqPhrase)(k).map(([c,b])=>[c,b]);if(p.clip==='phrase')q.ref=refFor(k,['bayati',...p.others]);q.explain=yes?'It was Bayati: stair 2 was a middle step.':`It was ${M[k].name}: stair 2 was a ${sizeWord(M[k].steps[1])} step, not middle.`;q.compare=[...seqFinger('bayati').map(([c,b])=>[c,b,'Bayati']),...(yes?[]:seqFinger(k).map(([c,b])=>[c,b,M[k].name]))];}
+    q.seq=(p.clip==='finger'?seqFinger(k):seqPhrase(k,rnd(TUNES))).map(([c,b])=>[c,b]);if(p.clip==='phrase'){q.ref=refFor(k,['bayati',...p.others]);q.tune=true;}
+    q.explain=yes?'It was Bayati: stair 2 was a middle step.':M[k].steps[1]===150?`It was ${M[k].name}. It starts with a middle step like Bayati, but ${k==='saba'?'stair 4 sinks instead of rising':'the next step is a full step, not a middle step'}.`:`It was ${M[k].name}: stair 2 was a ${sizeWord(M[k].steps[1])} step, not middle.`;q.compare=[...seqFinger('bayati').map(([c,b])=>[c,b,'Bayati']),...(yes?[]:seqFinger(k).map(([c,b])=>[c,b,M[k].name]))];}
   else if(type==='jump'){const yes=Math.random()<.5,third=yes?400:rnd([300,300,150]);
     q.prompt='Three stairs up. Was there a big jump?';q.opts=[{id:'yes',label:'Yes, a big jump'},{id:'no',label:'No jump'}];q.ans=yes?'yes':'no';
     q.seq=third===150?[[0,.9],[150,.9],[300,1.6]]:[[0,.9],[100,.9],[third,1.6]];q.explain=yes?'Yes: tiny step, then a big jump. That is Hijaz.':'No: the steps were ordinary.';q.compare=[[0,.8],[100,.8],[400,1.3,'Big jump (Hijaz)'],[0,.8],[100,.8],[300,1.3,'No jump (Kurd)']];}
@@ -895,15 +940,21 @@ function gen(type,p){
 }
 function makeWhich(k,set,clip,offset){
   const q={type:'which',k,offset,prompt:clip==='finger'?'Which maqam? (first four stairs only)':'Which maqam is this?',
-    opts:set.map(x=>({id:x,label:M[x].name,ar:M[x].ar,k:x})),ans:k,seq:(clip==='finger'?seqFinger:seqPhrase)(k).map(([c,b])=>[c,b]),
+    opts:set.map(x=>({id:x,label:M[x].name,ar:M[x].ar,k:x})),ans:k,seq:(clip==='finger'?seqFinger(k):seqPhrase(k,rnd(TUNES))).map(([c,b])=>[c,b]),
     explain:`It was ${M[k].name}. Stair 2 was a ${sizeWord(groupOf(k))} step. Its fingerprint is ${fp(k)}.`};
-  if(clip==='phrase')q.ref=refFor(k,set);return q;}
+  if(clip==='phrase'){q.ref=refFor(k,set);q.tune=true;}return q;}
 /* knowledge questions: need = maqamat that must be introduced, not = leave out once these are known (the answer changes) */
 const KNOW=[
- {need:[],q:'What is the "home sound"?',o:['The sound a recitation keeps returning to and ends on','The highest sound in the recitation','Any loud sound'],a:0,x:'Home is where the voice rests, especially at the end of each ayah.'},
- {need:[],q:'Which step size is special to Arabic music and missing from Western music?',o:['The middle step','The tiny step','The full step'],a:0,x:'The middle step sits between tiny and full. It gives maqamat their colour.'},
- {need:[],q:'Which part of a maqam is its "fingerprint"?',o:['The first four stairs','The last stair','The loudest stair'],a:0,x:'The first four stairs, and especially stair 2, identify the maqam.'},
- {need:[],q:'A tiny step sounds…',o:['Very close, almost the same sound','Clearly higher and open','Like a big leap'],a:0,x:'A tiny step is so small it feels squeezed.'},
+ {need:[],from:1,q:'What does "pitch" mean?',o:['How high or low a sound is','How loud a sound is','How long a sound lasts'],a:0,x:'Pitch is how high or low a sound is.'},
+ {need:[],from:1,q:'What is a "note"?',o:['One pitch held steady','Any loud sound','A fast tune'],a:0,x:'A note is simply one pitch held steady.'},
+ {need:[],from:2,q:'What is the "home sound"?',o:['The sound a recitation keeps returning to and ends on','The highest sound in the recitation','Any loud sound'],a:0,x:'Home is where the voice rests, especially at the end of each ayah.'},
+ {need:[],from:2,q:'A tune that stops away from home feels…',o:['Unfinished, as if waiting','Finished and settled','Louder than before'],a:0,x:'Only landing on home feels finished, like a full stop.'},
+ {need:[],from:3,q:'The maqamat differ from each other by…',o:['Small changes in a few steps','How loud they are','How fast they are'],a:0,x:'Maqamat differ by small amounts, so the ear has to notice small changes.'},
+ {need:[],from:4,q:'A tiny step sounds…',o:['Very close, almost the same sound','Clearly higher and open','Like a big leap'],a:0,x:'A tiny step is so small it feels squeezed.'},
+ {need:[],from:4,q:'A full step sounds…',o:['Clearly higher, open and relaxed','Almost the same sound','Like a big leap'],a:0,x:'A full step is clearly higher and feels open.'},
+ {need:[],from:5,q:'Which step size is special to Arabic music and missing from Western music?',o:['The middle step','The tiny step','The full step'],a:0,x:'The middle step sits between tiny and full. It gives maqamat their colour.'},
+ {need:[],from:5,q:'How big is the middle step?',o:['Wider than a tiny step, narrower than a full step','Wider than a full step','The same as a tiny step'],a:0,x:'The middle step sits between the tiny step and the full step.'},
+ {need:[],from:6,q:'Which part of a maqam is its "fingerprint"?',o:['The first four stairs','The last stair','The loudest stair'],a:0,x:'The first four stairs, and especially stair 2, identify the maqam.'},
  {need:['bayati'],q:'What is Bayati’s fingerprint?',o:['Middle, middle, full','Full, middle, middle','Tiny, big jump, tiny'],a:0,x:'Bayati: middle step, middle step, full step.'},
  {need:['bayati'],q:'Which maqam do many reciters begin and end in?',o:['Bayati','Saba','Kurd'],a:0,x:'Bayati is the home maqam of recitation.'},
  {need:['bayati'],q:'What is the most common beginner mistake in Bayati?',o:['Singing stair 2 too high','Singing stair 2 too low','Singing too slowly'],a:0,x:'Stair 2 is a middle step. Beginners often sing it as a full step.'},
@@ -932,7 +983,7 @@ const KNOW=[
  {need:['kurd'],q:'A maqam keeps its identity when the home sound is higher or lower. Why?',o:['A maqam is the shape of its steps, not their height','Only one home sound is allowed','Higher sounds change the maqam'],a:0,x:'The pattern of step sizes defines the maqam.'}
 ];
 function introduced(d){if(d<6)return[];if(d<11)return['bayati'];if(d<16)return B;if(d<20)return B3;if(d<24)return B4;if(d<25)return B5;if(d<29)return ORDER;if(d<30)return[...ORDER,'ajam'];return ALL;}
-function genKnow(set,used){const pool=KNOW.filter(k=>k.need.every(n=>set.includes(n))&&!(k.not||[]).some(n=>set.includes(n))&&!used.has(k));
+function genKnow(set,used,day){const pool=KNOW.filter(k=>(k.from||0)<=day&&k.need.every(n=>set.includes(n))&&!(k.not||[]).some(n=>set.includes(n))&&!used.has(k));if(!pool.length)return null;
   const fresh=pool.filter(k=>k.need.some(n=>n===set[set.length-1]));const it=rnd(fresh.length&&Math.random()<.6?fresh:pool);used.add(it);
   const order=shuffle(it.o.map((t,i)=>i));return {type:'know',diff:1+it.need.length*.3,prompt:it.q,opts:order.map(i=>({id:String(i),label:it.o[i]})),ans:String(it.a),explain:it.x,seq:null};}
 function difficulty(q,p){const base={hl:1,know:1.5,sd:2,home:2,step:3,isb:3,jump:3,pair:3.5,sink:4,which:4}[q.type]||3;let d=base;
@@ -945,7 +996,7 @@ function buildTest(lesson,dayNum){const qs=[];
       const a=gen('pair',p);a.diff=difficulty(a,p);const grp=p.set.filter(x=>groupOf(x)===groupOf(a.k));
       qs.push(a);if(grp.length>1){const b=makeWhich(a.k,grp,'finger',a.offset);b.prompt='Same sound. Which maqam in that group?';b.diff=a.diff+1e-6;qs.push(b);}continue;}
     const q=gen(type,p);q.diff=difficulty(q,p);qs.push(q);}});
-  const kn=dayNum?knowCount(dayNum):0;if(kn){const set=dayNum>LAST?ALL:introduced(dayNum);const used=new Set();for(let i=0;i<kn;i++)qs.push(genKnow(set,used));}
+  const kn=dayNum?knowCount(dayNum):0;if(kn){const set=dayNum>LAST?ALL:introduced(dayNum);const used=new Set();for(let i=0;i<kn;i++){const kq=genKnow(set,used,dayNum);if(kq)qs.push(kq);}}
   return qs.sort((a,b)=>a.diff-b.diff);}
 function testSize(lesson,d){return lesson.test.reduce((a,x)=>a+x[2]*(x[0]==='two'?2:1),0)+knowCount(d);}
 
@@ -956,14 +1007,23 @@ function confusion(q,picked){const d=today();
   if(q.type==='sink')return {d,a:q.ans==='sink'?'saba':'bayati',p:q.ans==='sink'?'bayati':'saba'};
   if(q.type==='jump'&&q.ans==='yes')return {d,a:'hijaz',p:'kurd'};
   return null;}
-function runTest(container,lesson,{onDone,dayNum,practice=false,weakMode=false}={}){
+/* a test in progress survives a visit to another tab: the router leaves its view alone while LIVE points at it */
+let LIVE=null;
+function runTest(container,lesson,opts={}){
+  const {onDone,back,retry,dayNum,practice=false}=opts;
   const qs=buildTest(lesson,dayNum),total=qs.length,need=Math.ceil(total*0.8);let i=0,right=0;const misses={};
+  const view=curView,hadDrone=!!drone;if(hadDrone)setDrone(false);/* the hum would give away "home" questions and clash with moved homes */
+  const droneBack=()=>{if(hadDrone&&!drone)setDrone(true);};
+  const leave=()=>{stopAll();LIVE=null;droneBack();const f=back||onDone||VIEWS[curView];if(f)f();};
   function show(){
+    LIVE={view,el:container};
     const q=qs[i];let answered=false;
     const bar=h('div',{class:'progress'},h('i',{style:`width:${i/total*100}%`}));
     const fb=h('div',{class:'fb','aria-live':'polite'});
     const ref=q.ref?clipById(q.ref):null;
-    const play=()=>{if(ref)playBlob(ref.blob,{label:'Listen…'});else if(q.seq)playSeq(q.seq,{offset:q.offset||0,label:'Listen…'});};
+    const play=()=>{if(ref)playBlob(ref.blob,{label:'Listen…'});else if(q.seq)playSeq(q.seq,{offset:q.offset||0,label:'Listen…',steady:!q.tune});};
+    const quit=h('button',{class:'quit'},'Leave test');let armed=false;
+    quit.addEventListener('click',()=>{if(!armed){armed=true;quit.textContent=practice?'Tap again to leave':'Tap again to leave (answers are not saved)';setTimeout(()=>{armed=false;quit.textContent='Leave test';},3500);return;}leave();});
     const next=h('button',{class:'btn primary',hidden:true},i+1<total?'Next question':'See my result');
     next.addEventListener('click',()=>{i++;i<total?show():finish();});
     const opts=h('div',{class:'opts'},q.opts.map(o=>{const b=h('button',{class:'opt','data-id':o.id,style:o.k?`--mc:var(--${o.k})`:null},o.ar?h('span',{class:'ar',lang:'ar',dir:'rtl'},o.ar):null,h('span',null,o.label));
@@ -971,12 +1031,12 @@ function runTest(container,lesson,{onDone,dayNum,practice=false,weakMode=false}=
         opts.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.dataset.id===q.ans)x.classList.add('right');else if(x===b)x.classList.add('wrong');});
         fb.replaceChildren(h('p',null,h('strong',{class:ok?'ok':'no'},ok?'Correct. ':'Not quite. '),q.explain));
         const acts=h('div',{class:'actions'},q.seq?h('button',{class:'btn',onclick:play},h('span',{class:'ic'},'↻'),' Hear it again'):null);
-        if(q.type==='which'&&!ok){acts.append(h('button',{class:'btn',onclick:()=>playSeq([...seqFinger(q.ans).map(([c,b])=>[c,b,M[q.ans].name]),...seqFinger(o.id).map(([c,b])=>[c,b,M[o.id].name])],{offset:q.offset||0})},h('span',{class:'ic'},'▶'),` Compare ${M[q.ans].name} and ${M[o.id].name}`));}
-        else if(q.compare&&!ok){acts.append(h('button',{class:'btn',onclick:()=>playSeq(q.compare,{offset:q.offset||0})},h('span',{class:'ic'},'▶'),' Hear the difference'));}
+        if(q.type==='which'&&!ok){acts.append(h('button',{class:'btn',onclick:()=>playSeq([...seqFinger(q.ans).map(([c,b])=>[c,b,M[q.ans].name]),...seqFinger(o.id).map(([c,b])=>[c,b,M[o.id].name])],{offset:q.offset||0,steady:true})},h('span',{class:'ic'},'▶'),` Compare ${M[q.ans].name} and ${M[o.id].name}`));}
+        else if(q.compare&&!ok){acts.append(h('button',{class:'btn',onclick:()=>playSeq(q.compare,{offset:q.offset||0,steady:true})},h('span',{class:'ic'},'▶'),' Hear the difference'));}
         fb.append(acts);next.hidden=false;next.focus();});
       return b;}));
     container.replaceChildren(h('div',{class:'test'},
-      h('div',{class:'qn'},h('span',null,`Question ${i+1} of ${total}`),h('span',null,`${right} right so far`)),bar,
+      h('div',{class:'qn'},h('span',null,`Question ${i+1} of ${total}`),h('span',null,`${right} right so far`),quit),bar,
       h('p',{class:'prompt',tabindex:'-1'},q.prompt),
       q.seq?h('div',{class:'actions'},h('button',{class:'btn gold',onclick:play},h('span',{class:'ic'},'▶'),' Play')):h('p',{class:'eyebrow'},'Knowledge question'),
       opts,fb,h('div',{class:'actions'},next)));
@@ -984,7 +1044,7 @@ function runTest(container,lesson,{onDone,dayNum,practice=false,weakMode=false}=
     if(q.seq||ref)timers.push(setTimeout(play,250));
   }
   function finish(){
-    stopAll();const pass=right>=need;let stageDone=null;
+    stopAll();LIVE=null;droneBack();const pass=right>=need;let stageDone=null;
     if(practice)save();
     if(!practice){
       P.tests.push({date:today(),day:dayNum,score:right,total,misses});if(P.tests.length>120)P.tests=P.tests.slice(-120);
@@ -993,12 +1053,17 @@ function runTest(container,lesson,{onDone,dayNum,practice=false,weakMode=false}=
       save();
     }
     const worst=Object.entries(misses).sort((a,b)=>b[1]-a[1]).slice(0,2);
+    /* after a failed day test: a short drill made only of the kinds of question that were missed */
+    const drill=!pass&&!practice?lesson.test.filter(([t])=>misses[t]).map(([t,p])=>[t,p,t==='two'?2:4]):[];
     const box=h('div',{class:'test'},h('div',{class:'result'},
       starBadge(pass?'✓':'·',pass?'done':''),
       h('h3',{class:'big',tabindex:'-1'},`${right} / ${total}`,h('span',{class:'sr-only'},` correct. ${pass?'Passed.':'Not passed yet.'}`)),
-      h('p',null,practice?(pass?'Strong result.':'Keep practising.'):dayNum>LAST?(pass?'Well done. Your ear is holding steady.':'A harder day. Take the review again tomorrow.'):pass?(dayNum===CORE?'You passed the final test. Alhamdulillah, the six-maqam course is complete. A short bonus stage with Ajam and Sikah opens tomorrow.':dayNum===LAST?'You passed the eight-maqam test. Alhamdulillah. From now on you get a daily review test that focuses on your weak spots.':`Passed. Day ${dayNum+1} opens tomorrow.`):`You need ${need} to pass. Repeat the listening buttons above, then try again. New questions each time.`),
+      h('p',null,practice?(pass?'Strong result.':'Keep practising.'):dayNum>LAST?(pass?'Well done. Your ear is holding steady.':'A harder day. Take the review again tomorrow.'):pass?(dayNum===CORE?'You passed the final test. Alhamdulillah, the six-maqam course is complete. A short bonus stage with Ajam and Sikah opens tomorrow.':dayNum===LAST?'You passed the eight-maqam test. Alhamdulillah. From now on you get a daily review test that focuses on your weak spots.':`Passed. ${dayName(dayNum+1)} opens tomorrow.`):`You need ${need} to pass. Practise what you missed, or repeat the listening buttons above, then try again. New questions each time.`),
       worst.length?h('ul',null,worst.map(([t])=>h('li',null,TYPE_ADVICE[t]))):null,
-      h('div',{class:'actions'},h('button',{class:'btn',onclick:()=>runTest(container,lesson,{onDone,dayNum,practice:practice||pass})},pass?'Extra practice (not scored)':'Try again'),onDone?h('button',{class:'btn primary',onclick:onDone},'Back to today'):null)));
+      h('div',{class:'actions'},
+        drill.length?h('button',{class:'btn primary',onclick:()=>runTest(container,{test:drill},{onDone,back,practice:true,dayNum:0,retry:()=>runTest(container,lesson,opts)})},h('span',{class:'ic'},'▶'),' Practise what I missed'):null,
+        retry?h('button',{class:'btn primary',onclick:retry},'Retake the test'):null,
+        h('button',{class:'btn',onclick:()=>runTest(container,lesson,Object.assign({},opts,{practice:practice||pass}))},pass?'Extra practice (not scored)':retry?'More of this practice':'Try again'),onDone?h('button',{class:'btn'+(drill.length||retry?'':' primary'),onclick:onDone},'Back to today'):null)));
     container.replaceChildren(box);box.querySelector('.big').focus();
     if(stageDone)celebrate(stageDone);
   }
@@ -1015,9 +1080,11 @@ function lessonBlock(d,lesson){
     h('a',{href:'https://www.youtube.com/results?search_query='+encodeURIComponent('maqam '+M[lesson.k].name+' quran recitation'),target:'_blank',rel:'noopener noreferrer'},`Hear ${M[lesson.k].name} sung by reciters on YouTube ↗`)));
   if(lesson.listen.length)frag.push(h('div',{class:'panel'},h('h3',null,'Listen'),h('div',{class:'listen'},lesson.listen.map(it=>h('div',{class:'row'},listenButton(it),it.why?h('span',{class:'why'},it.why):null)))));
   if(lesson.sing.length){const done=P.sing[d]||[];frag.push(h('div',{class:'panel'},h('h3',null,'Sing'),h('p',{class:'muted'},'Turn on "Hum along" first. Tick each one when done.'),
-    h('ol',{class:'sing'},lesson.sing.map((s,i)=>{const id=`s${d}-${i}`;const cb=h('input',{type:'checkbox',id});cb.checked=!!done[i];cb.addEventListener('change',()=>{P.sing[d]=Array.isArray(P.sing[d])?P.sing[d]:[];P.sing[d][i]=cb.checked;save();});return h('li',null,h('label',{for:id},cb,h('span',null,s)));}))));}
+    h('ol',{class:'sing'},lesson.sing.map((s,i)=>{const id=`s${d}-${i}`;const cb=h('input',{type:'checkbox',id});cb.checked=!!done[i];cb.addEventListener('change',()=>{P.sing[d]=Array.isArray(P.sing[d])?P.sing[d]:[];P.sing[d][i]=cb.checked;save();});return h('li',null,h('label',{for:id},cb,h('span',null,s)));})),
+    lesson.k?null:h('div',{class:'actions'},h('button',{class:'btn',onclick:()=>{location.hash='sing';}},h('span',{'aria-hidden':'true'},'🎙'),' See my voice on the Sing tab'))));}
   return frag;
 }
+const dayName=d=>d<=CORE?`Day ${d}`:`Bonus day ${d-CORE}`;
 function dayLabel(d){return d<=CORE?`Day ${d} of ${CORE}`:d<=LAST?`Bonus day ${d-CORE} of ${LAST-CORE}`:'Course complete';}
 function renderToday(){
   const v=$('#v-today');const d=currentDay(),lesson=lessonFor(d),locked=lockedToday();
@@ -1029,16 +1096,20 @@ function renderToday(){
   head.append(h('div',{class:'dayhead'},starBadge(d>LAST?'✓':d,'now'),h('div',null,h('span',{class:'eyebrow'},dayLabel(d)),h('h2',null,locked?'Done for today':lesson.t),h('p',{class:'muted'},locked?`Tomorrow: ${dayLabel(d)} · ${lesson.t}`:lesson.s))),
     h('div',{class:'stats'},h('span',null,'Days passed ',h('b',null,`${passedN}/${LAST}`)),h('span',null,'Daily streak ',h('b',null,String(streak()))),h('span',null,'Tests today ',h('b',null,String(tToday.length)))),strip);
   const parts=[head];
+  const bk=LS.get('mq.bk',null),later=LS.get('mq.bkLater',null),since=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)?dayDiff(x,today()):999;
+  if(!uid&&passedN>=3&&since(bk)>=14&&since(later)>=5)parts.push(h('div',{class:'panel nudge'},h('h3',null,'Keep your progress safe'),
+    h('p',null,`You have passed ${passedN} days. Progress lives only in this browser, and a browser can clear it, for example after a week without a visit on an iPhone. A backup takes ten seconds.`),
+    h('div',{class:'actions'},h('button',{class:'btn primary',onclick:()=>{openSettings(true);const b=$('#backup');if(b)b.scrollIntoView({behavior:'smooth',block:'center'});}},'Back up now'),h('button',{class:'btn',onclick:()=>{LS.set('mq.bkLater',today());renderToday();}},'Remind me later'))));
   if(locked){
     const last=P.passed[d-1];
-    parts.push(h('div',{class:'panel'},h('h3',null,'Well done'),h('p',null,`You passed Day ${d-1}${last?` with ${last.score} out of ${last.total}`:''}. Learning sticks best with sleep in between, so the next day opens tomorrow.`),
-      h('div',{class:'actions'},h('button',{class:'btn',onclick:()=>{location.hash='practice';}},'Free practice'),h('button',{class:'btn',onclick:()=>{location.hash='sing';}},'Sing practice'),h('button',{class:'btn',onclick:()=>{P.early=true;save();renderToday();}},`Start Day ${d} now anyway`))));
+    parts.push(h('div',{class:'panel'},h('h3',null,'Well done'),h('p',null,`You passed ${dayName(d-1)}${last?` with ${last.score} out of ${last.total}`:''}. Learning sticks best with sleep in between, so the next day opens tomorrow.`),
+      h('div',{class:'actions'},h('button',{class:'btn',onclick:()=>{location.hash='practice';}},'Free practice'),h('button',{class:'btn',onclick:()=>{location.hash='sing';}},'Sing practice'),h('button',{class:'btn',onclick:()=>{P.early=true;save();renderToday();}},`Start ${dayName(d)} now anyway`))));
   }else{
     parts.push(...lessonBlock(d,lesson));
     const tbox=h('div',{id:'testbox'});
     const n=testSize(lesson,d);
-    tbox.append(h('div',{class:'test'},h('span',{class:'eyebrow'},d>LAST?'Daily review test':`Day ${d} test`),h('h3',null,`${n} questions · pass with ${Math.ceil(n*.8)}`),
-      h('p',{class:'muted'},'Questions start easy and get harder. Listening questions play by themselves and can be replayed as often as you like. Every answer is explained.'),
+    tbox.append(h('div',{class:'test'},h('span',{class:'eyebrow'},d>LAST?'Daily review test':`${dayName(d)} test`),h('h3',null,`${n} questions · pass with ${Math.ceil(n*.8)}`),
+      h('p',{class:'muted'},'Questions start easy and get harder. Listening questions play by themselves and can be replayed as often as you like. Every answer is explained. "Hum along" pauses during the test, and you can visit another tab and come back without losing your place.'),
       h('div',{class:'actions'},h('button',{class:'btn primary',onclick:()=>{runTest(tbox,lesson,{dayNum:d,onDone:renderToday});tbox.scrollIntoView({behavior:'smooth',block:'start'});}},h('span',{class:'ic'},'▶'),' Start the test'))));
     parts.push(tbox);
   }
@@ -1056,15 +1127,16 @@ function renderCourse(){
 function openPast(d){
   const v=$('#v-course');const L=DAYS[d];
   const tbox=h('div');
-  v.replaceChildren(h('div',{class:'panel'},h('div',{class:'dayhead'},starBadge(d,'done'),h('div',null,h('span',{class:'eyebrow'},`Day ${d} · revisit`),h('h2',null,L.t))),h('div',{class:'actions'},h('button',{class:'btn',onclick:renderCourse},'← All days'))),
+  v.replaceChildren(h('div',{class:'panel'},h('div',{class:'dayhead'},starBadge(d,'done'),h('div',null,h('span',{class:'eyebrow'},`${dayName(d)} · revisit`),h('h2',null,L.t))),h('div',{class:'actions'},h('button',{class:'btn',onclick:renderCourse},'← All days'))),
     ...lessonBlock(d,L),tbox);
-  tbox.append(h('div',{class:'actions'},h('button',{class:'btn',onclick:()=>runTest(tbox,L,{practice:true,dayNum:d})},h('span',{class:'ic'},'▶'),' Retake as practice (not scored)')));
+  tbox.append(h('div',{class:'actions'},h('button',{class:'btn',onclick:()=>runTest(tbox,L,{practice:true,dayNum:d,back:()=>openPast(d)})},h('span',{class:'ic'},'▶'),' Retake as practice (not scored)')));
   window.scrollTo({top:0});
 }
 function groupsText(set){return [100,150,200].map(z=>`${sizeWord(z)} (${set.filter(x=>groupOf(x)===z).map(x=>M[x].name).join(', ')})`).join(', ');}
 function renderMaqamat(){
   const v=$('#v-maqamat');
-  const intro=h('div',{class:'panel'},h('h2',null,'The eight maqamat'),h('p',{class:'muted'},`Reference cards. Stair 2 sorts them into three groups: ${groupsText(ALL)}. Ajam and Sikah are taught in the bonus stage.`));
+  const intro=h('div',{class:'panel'},h('h2',null,'The eight maqamat'),h('p',{class:'muted'},`Reference cards. Stair 2 sorts them into three groups: ${groupsText(ALL)}. Ajam and Sikah are taught in the bonus stage.`),
+    h('p',{class:'muted'},'Reciters often remember the traditional seven with the phrase ',h('span',{class:'ar',lang:'ar',dir:'rtl',style:'font-size:1.25em;color:var(--gold)'},'صُنِعَ بِسِحْر'),': Saba, Nahawand, Ajam, Bayati, Sikah, Hijaz, Rast. Kurd is commonly counted as the eighth.'));
   const vids=[['8 Different Maqams and Their Emotional Meanings','https://www.youtube.com/watch?v=Zto2BUxkF-w'],['The 8 Maqamat ul Quran','https://www.youtube.com/watch?v=_WAZtRP-874'],['Maqamat Quran Recitation','https://www.youtube.com/watch?v=J4kmOfJe35o'],['Learn 4 Maqamat: Hijaz, Sikah, Nahawand, Rast','https://www.youtube.com/watch?v=Cf6Sdse8POs'],['Maqam Bayati (playlist)','https://www.youtube.com/playlist?list=PL4wvDiRXaJVRuZKNLBGVsxWPvDcghdbDM'],['Beautiful Quran in Maqam Nahawand','https://www.youtube.com/watch?v=UxMS3kWj3yo']];
   const real=h('div',{class:'panel'},h('h3',null,'Hear real reciters'),
     h('p',null,'Openly licensed recordings of real reciters play right here, on the ',h('a',{href:'#sing'},'Sing tab'),'. You can also record or upload your teacher’s voice there.'),
@@ -1090,13 +1162,13 @@ function renderPractice(){
     wp.length||wt.length?h('div',{style:'display:grid;gap:8px'},
       wp.length?h('p',null,'Pairs you mix up most: ',...wp.map(({pair,n},i)=>h('span',null,i?', ':'',h('b',null,`${M[pair[0]].name} and ${M[pair[1]].name}`),` (${n}×)`))):null,
       wt.length?h('p',{class:'muted'},'Question types you miss most: '+wt.map(t=>({hl:'higher or lower',sd:'same or different',step:'step sizes',home:'home',isb:'is it Bayati',jump:'jumps',sink:'stair 4',pair:'stair 2 groups'})[t]).join(', ')+'.'):null,
-      h('div',{class:'actions'},h('button',{class:'btn primary',onclick:()=>{const items=weakItems(10);runTest(tbox,{test:items},{practice:true,weakMode:true});tbox.scrollIntoView({behavior:'smooth'});}},h('span',{class:'ic'},'▶'),' Practise my weak spots')))
+      h('div',{class:'actions'},h('button',{class:'btn primary',onclick:()=>{const items=weakItems(10);runTest(tbox,{test:items},{practice:true,back:renderPractice});tbox.scrollIntoView({behavior:'smooth'});}},h('span',{class:'ic'},'▶'),' Practise my weak spots')))
     :h('p',{class:'muted'},'Nothing yet. After a few tests, the pairs you mix up most appear here, and the daily review adds extra questions on them.'));
   v.replaceChildren(h('div',{class:'panel'},h('h2',null,'Free practice'),h('p',{class:'muted'},'Not scored, as often as you like. "Sort by stair 2" and "Two steps" break the hardest skill into smaller ones.'),
     h('div',{class:'actions'},seg([['name','Name the maqam'],['sort','Sort by stair 2'],['two','Two steps']],'mode','Kind of practice')),
     h('div',{class:'actions'},seg([[1,'Bayati, Hijaz'],[2,'+ Rast, Saba'],[3,'All six'],[4,'All eight']],'set','Which maqamat')),
     h('div',{class:'actions'},PR.mode==='name'?seg([['phrase','Full phrase'],['finger','First four stairs']],'clip','Clip length'):null,seg([[false,'Same home'],[true,'Random home']],'shift','Home height')),
-    h('div',{class:'actions'},h('button',{class:'btn primary',onclick:()=>{runTest(tbox,{test:test()},{practice:true});tbox.scrollIntoView({behavior:'smooth'});}},h('span',{class:'ic'},'▶'),' Start practice'))),weak,tbox);
+    h('div',{class:'actions'},h('button',{class:'btn primary',onclick:()=>{runTest(tbox,{test:test()},{practice:true,back:renderPractice});tbox.scrollIntoView({behavior:'smooth'});}},h('span',{class:'ic'},'▶'),' Start practice'))),weak,tbox);
 }
 
 /* =================== REFERENCE RECORDINGS (stored only on this device, in IndexedDB) =================== */
@@ -1114,13 +1186,13 @@ function refFor(k,set){if(!useRef||!set.every(x=>clipsFor(x).length))return null
 function refButtons(k){return clipsFor(k).map(c=>h('button',{class:'btn',onclick:()=>playBlob(c.blob,{label:c.label})},h('span',{class:'ic'},'▶'),' '+c.label));}
 
 /* =================== SING: microphone pitch meter, guided drill, recording, ayat =================== */
-const SG={k:'bayati',stream:null,micNode:null,an:null,buf:null,raf:0,trace:[],hist:[],mode:'mic',home:null,wait:null,results:[],rec:null,take:null,takeUrl:null,cv:null,cols:null,lastRead:0,mediaNodes:new WeakMap(),cur:null};
+const SG={k:'bayati',drill:'four',stream:null,micNode:null,an:null,buf:null,raf:0,trace:[],hist:[],mode:'mic',home:null,wait:null,results:[],rec:null,take:null,takeUrl:null,cv:null,cols:null,lastRead:0,mediaNodes:new WeakMap(),cur:null};
 function analyser(){audio();if(!SG.an){SG.an=ctx.createAnalyser();SG.an.fftSize=2048;SG.buf=new Float32Array(SG.an.fftSize);}return SG.an;}
 /* pitch: McLeod normalised square-difference on a 2x decimated frame. Returns Hz, or -1 when there is no clear pitch. */
 function detectPitch(buf,sr){
   const n=buf.length>>1,x=SG.dec&&SG.dec.length===n?SG.dec:(SG.dec=new Float32Array(n));let rms=0;
   for(let i=0;i<n;i++){const v=(buf[2*i]+buf[2*i+1])*.5;x[i]=v;rms+=v*v;}
-  if(Math.sqrt(rms/n)<0.01)return -1;
+  SG.rms=Math.sqrt(rms/n);if(SG.rms<0.01)return -1;
   const fs=sr/2,minLag=Math.max(2,Math.floor(fs/1000)),maxLag=Math.min(n-2,Math.ceil(fs/70));
   const ns=SG.ns&&SG.ns.length===maxLag+2?SG.ns:(SG.ns=new Float32Array(maxLag+2));
   for(let t=1;t<=maxLag+1;t++){let ac=0,m=0;for(let i=0,L=n-t;i<L;i++){const a=x[i],b=x[i+t];ac+=a*b;m+=a*a+b*b;}ns[t]=m>0?2*ac/m:0;}
@@ -1152,14 +1224,14 @@ function meterLoop(){
   if(now-(SG.lastDetect||0)<28){drawMeter(now);SG.raf=requestAnimationFrame(meterLoop);return;}SG.lastDetect=now;
   let f=-1;if(SG.mode!=='mic'||now>playingUntil+150)f=detectPitch(SG.buf,ctx.sampleRate);
   let c=null;
-  if(f>0){SG.hist.push(f);if(SG.hist.length>5)SG.hist.shift();const med=SG.hist.slice().sort((a,b)=>a-b)[SG.hist.length>>1];SG.medHz=med;c=fold(centsOf(med,refHz()));}
+  if(f>0){SG.hist.push(f);if(SG.hist.length>5)SG.hist.shift();const med=SG.hist.slice().sort((a,b)=>a-b)[SG.hist.length>>1];SG.medHz=med;c=fold(centsOf(med,refHz()));if(SG.listen)SG.listen(med);}
   else{SG.hist=[];SG.medHz=0;}
   const dtl=Math.min(64,now-(SG.lastLoop||now));SG.lastLoop=now;
   if(c==null){SG.gap=(SG.gap||0)+dtl;if(SG.gap>140)SG.disp=null;}else{SG.gap=0;SG.disp=SG.disp==null||Math.abs(c-SG.disp)>250?c:SG.disp+(c-SG.disp)*(1-Math.exp(-dtl/(REDUCED?1:55)));}
   SG.trace.push({t:now,c:SG.disp});while(SG.trace.length&&SG.trace[0].t<now-6000)SG.trace.shift();
   if(SG.wait){const w=SG.wait,target=M[w.k].steps[w.idx],dt=now-(w.last||now);w.last=now;
     if(c!=null&&Math.abs(c-target)<=120)w.devs.push(c-target);
-    if(c!=null&&Math.abs(c-target)<=35)w.hold+=dt;
+    if(c!=null&&Math.abs(c-target)<=30)w.hold+=dt;
     if(w.hold>=700)finishWait(true);else if(now-w.start>7000)finishWait(false);}
   drawMeter(now);
   if(now-SG.lastRead>120){SG.lastRead=now;updateReadout(SG.disp);}
@@ -1215,7 +1287,7 @@ function drawMeter(now){const cv=SG.cv;if(!cv||!cv.isConnected)return;
   const nd=SG.needle;if(nd&&nd.isConnected){const dev=near?Math.max(-50,Math.min(50,near.dev)):0;nd.style.left=`calc(${50+dev}% - 9px)`;nd.dataset.on=near?(Math.abs(near.dev)<=20?'ok':'off'):'idle';}
 }
 function updateReadout(c){const r=$('#readout');if(!r)return;
-  if(c==null){r.replaceChildren(h('span',{class:'muted'},SG.mode==='clip'?'Listening to the recording…':(SG.stream?'Sing or hum "aah"… (no clear pitch yet)':'Microphone is off.')));return;}
+  if(c==null){r.replaceChildren(h('span',{class:'muted'},SG.mode==='clip'?'Listening to the recording…':!SG.stream?'Microphone is off.':performance.now()<playingUntil+150?'Listen…':(SG.rms||0)<0.003?'Sing or hum "aah"…':SG.rms<0.01?'Too quiet: sing a little louder, or move closer to the microphone.':'I hear sound but no clear note. Hold one steady "aah".'));return;}
   const {i,dev}=stairNear(c),on=Math.abs(dev)<=20,between=Math.abs(dev)>60,hint=between?'':hintFor(SG.k,i,dev);
   r.replaceChildren(h('span',{class:'big '+(on?'ok':'off')},between?'Between stairs':`Stair ${i+1}`),
     ...[between?null:h('span',{class:on?'ok':'off'},on?'right on the stair':dev>0?`a little high (+${dev})`:`a little low (${dev})`),hint?h('span',{class:'warn'},hint):null].filter(Boolean));}
@@ -1228,7 +1300,8 @@ async function startMic(){
   if(curView!=='sing'){SG.stream.getTracks().forEach(t=>t.stop());SG.stream=null;return false;}
   const hb=$('#homebtn');if(hb)hb.hidden=true;
   disconnectMedia();SG.mode='mic';SG.micNode=ctx.createMediaStreamSource(SG.stream);SG.micNode.connect(analyser());SG.trace=[];SG.cols=null;
-  if(!SG.raf)SG.raf=requestAnimationFrame(meterLoop);syncSingButtons();return true;}
+  if(!SG.raf)SG.raf=requestAnimationFrame(meterLoop);syncSingButtons();
+  setMicMsg(drone?'"Hum along" is on. Use headphones, or the meter will hear the hum instead of you.':'');return true;}
 function stopMic(){
   if(SG.rec&&SG.rec.state==='recording')try{SG.rec.stop();}catch(e){}
   if(SG.stream){SG.stream.getTracks().forEach(t=>t.stop());SG.stream=null;}
@@ -1259,21 +1332,65 @@ function recordBlob(maxSec,onState){return new Promise(async res=>{
   const chunks=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data);};
   rec.onstop=()=>{clearTimeout(rec._t);SG.rec=null;onState&&onState(false);syncSingButtons();res(chunks.length?new Blob(chunks,{type:rec.mimeType||mime||'audio/webm'}):null);};
   SG.rec=rec;rec.start();rec._t=setTimeout(()=>{if(rec.state==='recording')rec.stop();},maxSec*1000);onState&&onState(true);syncSingButtons();});}
+/* guided drills: the page sings a stair, you sing it back, and the meter judges it. One second try on a miss. */
+const DRILLS={four:['Stairs 1 to 4',()=>[0,1,2,3,2,1,0]],five:['Stairs 1 to 5',()=>[0,1,2,3,4,3,2,1,0]],all:['All eight',()=>[0,1,2,3,4,5,6,7,6,5,4,3,2,1,0]],tune:['A short tune',k=>M[k].phrase.map(p=>p[0])]};
+function stairTip(per,k){let worst=null;Object.entries(per).forEach(([i,a])=>{if(!a.length)return;const m=Math.round(a.reduce((x,y)=>x+y,0)/a.length);if(+i>0&&Math.abs(m)>20&&(!worst||Math.abs(m)>Math.abs(worst.m)))worst={i:+i,m};});
+  return worst?(hintFor(k,worst.i,worst.m)||`Stair ${worst.i+1} was usually a little ${worst.m>0?'high':'low'}. Aim ${worst.m>0?'lower':'higher'}.`):'';}
+function markBest(){document.querySelectorAll('.chip[data-k]').forEach(c=>{const b=P.best[c.dataset.k];if(b&&b.hits>=7&&!c.querySelector('.best'))c.append(h('span',{class:'best',title:'All seven stairs on target in the guided drill'},'★'));});}
 async function guided(btn){
   if(!(await startMic()))return;
-  const order=[0,1,2,3,2,1,0],k=SG.k;SG.results=[];let aborted=false;const hook=()=>{aborted=true;if(SG.wait)finishWait(false);};stopHooks.push(hook);
+  const k=SG.k,kind=DRILLS[SG.drill]?SG.drill:'four',order=DRILLS[kind][1](k);SG.results=[];let aborted=false;const hook=()=>{aborted=true;if(SG.wait)finishWait(false);};stopHooks.push(hook);
   btn.disabled=true;const dots=$('#dots'),sum=$('#guidesum');sum.replaceChildren();
   const paint=(cur)=>dots.replaceChildren(...order.map((idx,j)=>h('span',{class:'dot'+(j<SG.results.length?(SG.results[j].ok?' ok':' miss'):'')+(j===cur?' now':''),'aria-label':`Stair ${idx+1}${j<SG.results.length?(SG.results[j].ok?': hit':': missed'):''}`},String(idx+1))));
-  for(let j=0;j<order.length&&!aborted&&SG.k===k;j++){const idx=order[j];paint(j);
-    if(await playP([[M[k].steps[idx],2,`Listen: stair ${idx+1}`,idx]],{onNote:hl(k)})==='cancel'||aborted||!SG.stream)break;
+  const turn=async idx=>{
+    if(await playP([[M[k].steps[idx],2,`Listen: stair ${idx+1}`,idx]],{onNote:hl(k),steady:true})==='cancel'||aborted||!SG.stream)return null;
     setStatus(`Your turn: sing stair ${idx+1}`,'sing');
-    const r=await new Promise(res=>{SG.wait={idx,k,start:performance.now(),hold:0,devs:[],res};});setStatus('');
-    if(aborted||!SG.stream)break;SG.results.push(r);}
-  stopHooks=stopHooks.filter(f=>f!==hook);paint(-1);btn.disabled=false;if(!SG.results.length)return;
-  const hits=SG.results.filter(r=>r.ok).length;const per={};SG.results.forEach(r=>{if(r.dev!=null)(per[r.idx]=per[r.idx]||[]).push(r.dev);});
-  let worst=null;Object.entries(per).forEach(([i,a])=>{const m=Math.round(a.reduce((x,y)=>x+y,0)/a.length);if(i>0&&Math.abs(m)>20&&(!worst||Math.abs(m)>Math.abs(worst.m)))worst={i:+i,m};});
-  const tip=worst?(hintFor(k,worst.i,worst.m)||`Stair ${worst.i+1} was usually ${worst.m>0?'high':'low'} (by about ${Math.abs(worst.m)}). Aim ${worst.m>0?'lower':'higher'}.`):'Your stairs were close to the targets. Well done.';
-  sum.replaceChildren(h('p',null,h('b',null,`${hits} of ${SG.results.length} stairs on target.`),' '+tip));}
+    const res=await new Promise(done=>{SG.wait={idx,k,start:performance.now(),hold:0,devs:[],res:done};});setStatus('');
+    return aborted||!SG.stream?null:res;};
+  for(let j=0;j<order.length&&!aborted&&SG.k===k;j++){const idx=order[j];paint(j);
+    let res=await turn(idx);if(!res)break;
+    if(!res.ok){sum.replaceChildren(h('p',null,res.dev==null?`I did not hear stair ${idx+1}. Listen again and try once more.`:`That was a little ${res.dev>0?'high':'low'}. Listen again and try once more.`));
+      const again=await turn(idx);if(!again)break;res=again;sum.replaceChildren();}
+    SG.results.push(res);}
+  stopHooks=stopHooks.filter(f=>f!==hook);btn.disabled=false;if(!dots.isConnected)return;paint(-1);if(!SG.results.length){sum.replaceChildren();return;}
+  const hits=SG.results.filter(x=>x.ok).length;const per={};SG.results.forEach(x=>{if(x.dev!=null)(per[x.idx]=per[x.idx]||[]).push(x.dev);});
+  const tip=stairTip(per,k)||(hits===SG.results.length?'Every stair was on target. Well done.':'Your stairs were close to the targets.');
+  if(kind==='four'&&SG.results.length===order.length&&(!P.best[k]||hits>P.best[k].hits)){P.best[k]={hits,date:today()};save();markBest();}
+  sum.replaceChildren(h('p',null,h('b',null,`${hits} of ${SG.results.length} stairs on target.`),' '+tip),kind==='four'&&P.best[k]?h('p',{class:'legend'},`Your best in ${M[k].name}: ${P.best[k].hits} of 7.`):null);}
+/* "Find my voice": hum one comfortable note, and the page picks the "Your voice" setting whose home is closest to it */
+function setTonic(t){tonic=t;LS.set('mq.tonic',t);const s=$('#tonic');if(s)s.value=String(t);if(drone)setDrone(true);}
+async function findVoice(btn){
+  if(SG.wait||SG.listen)return;if(!(await startMic()))return;
+  stopAll();btn.disabled=true;setMicMsg('Hum one comfortable, relaxed note, like the start of a sentence, and hold it for three seconds…');
+  const got=[],t0=performance.now();SG.listen=f=>got.push(f);
+  await new Promise(done=>{const iv=setInterval(()=>{if(got.length>=45||performance.now()-t0>9000||!SG.stream){clearInterval(iv);done();}},100);});
+  SG.listen=null;btn.disabled=false;
+  if(got.length<25){setMicMsg(SG.stream?'I could not hear a steady note. Try again a little louder, holding "mmm" for three seconds.':'');return;}
+  const med=got.slice().sort((a,b)=>a-b)[got.length>>1];let best=TONICS[0];TONICS.forEach(t=>{if(Math.abs(Math.log2(med/t))<Math.abs(Math.log2(med/best)))best=t;});
+  setTonic(best);const opt=[...$('#tonic').options].find(o=>+o.value===best);
+  setMicMsg(`"Your voice" is now set to "${opt?opt.textContent:''}". Here is your home sound: hum along with it. If it feels too low or too high, press "Find my voice" again or change it in Settings.`);
+  playSeq([[0,4,'Your home sound']],{steady:true});}
+/* a recorded take, drawn on the stairs: green where the voice sat on a stair, gold where it was between stairs */
+async function analyseTake(){const blob=SG.take;if(!blob)return null;if(SG.takePts&&SG.takePts.blob===blob)return SG.takePts;
+  let buf;try{buf=await decodeBlob(blob);}catch(e){return null;}
+  const sr=buf.sampleRate,ch=buf.getChannelData(0),N=2048,hop=Math.max(256,Math.round(sr*0.03)),pts=[],frame=new Float32Array(N);
+  for(let i=0,n=0;i+N<=ch.length;i+=hop,n++){frame.set(ch.subarray(i,i+N));pts.push({t:i/sr,hz:detectPitch(frame,sr)});if(n%60===59)await new Promise(done=>setTimeout(done));}
+  for(let i=1;i<pts.length-1;i++)if(pts[i].hz>0&&pts[i-1].hz<=0&&pts[i+1].hz<=0)pts[i].hz=-1;/* drop one-frame blips */
+  return SG.takePts={blob,pts,dur:buf.duration};}
+function drawTake(cv,cp,dur){const dpr=Math.min(window.devicePixelRatio||1,2),W=cv.clientWidth,H=cv.clientHeight;if(!W)return;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+  const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);const C=colours(),lo=-170,hi=1370,y=c=>H-12-((c-lo)/(hi-lo))*(H-24),L=44,R=W-12,X=t=>L+(t/Math.max(dur,.5))*(R-L),st=M[SG.k].steps;
+  g.fillStyle=C.bg;g.fillRect(0,0,W,H);let prev=-99,stag=0;
+  st.forEach((s,i)=>{const yy=y(s),fpr=i<4;g.fillStyle=rgba(fpr?C.mc:C.muted,fpr?.13:.06);rrect(g,L,yy-5,R-L,10,5);g.fill();
+    stag=Math.abs(yy-prev)<15?(stag?0:18):0;prev=yy;g.fillStyle=rgba(fpr?C.mc:C.muted,fpr?.95:.6);g.beginPath();g.arc(12+stag,yy,7.5,0,7);g.fill();
+    g.fillStyle=C.surface;g.font='700 9px system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(i+1),12+stag,yy+.5);});
+  g.lineCap='round';g.lineWidth=3;
+  cp.forEach((b,i)=>{if(b.c==null)return;const a=cp[i-1],col=Math.abs(stairNear(b.c).dev)<=25?C.good:C.gold;
+    if(a&&a.c!=null&&Math.abs(a.c-b.c)<=160){g.strokeStyle=col;g.beginPath();g.moveTo(X(a.t),y(a.c));g.lineTo(X(b.t),y(b.c));g.stroke();}
+    else{g.fillStyle=col;g.beginPath();g.arc(X(b.t),y(b.c),1.5,0,7);g.fill();}});}
+function takeSummary(cp,k){const v=cp.filter(p=>p.c!=null);if(v.length<10)return 'I could not hear a clear sung note in this take. Record again a little louder, holding each sound.';
+  let on=0;const per={};v.forEach(p=>{const {i,dev}=stairNear(p.c);if(Math.abs(dev)<=25)on++;if(Math.abs(dev)<=60)(per[i]=per[i]||[]).push(dev);});
+  Object.keys(per).forEach(i=>{if(per[i].length<6)delete per[i];});const pct=Math.round(on/v.length*100),tip=stairTip(per,k);
+  return `${pct}% of your singing sat on a ${M[k].name} stair (the green parts). `+(tip||(pct>=60?'Your stairs were close to the targets.':'The gold parts are between stairs. Slow down and hold each stair a little longer.'));}
 /* ---- ayat: one note per word, shaped by the maqam's phrase and ending at home ---- */
 const AYAT={
  fatiha:{name:'Al-Fatiha',ar:'الفاتحة',ayat:[
@@ -1305,21 +1422,25 @@ function ayahSeq(words,k,ai){const st=M[k].steps,tpl=M[k].phrase.map(p=>p[0]),L=
 let AY={s:'fatiha'};
 function renderSing(){
   const v=$('#v-sing');SG.cols=null;
-  const chips=h('div',{class:'chips',role:'group','aria-label':'Maqam'},ALL.map(k=>{const b=h('button',{class:'chip',style:`--mc:var(--${k})`,'aria-pressed':String(SG.k===k)},h('span',{class:'ar',lang:'ar',dir:'rtl'},M[k].ar),M[k].name);
+  const chips=h('div',{class:'chips',role:'group','aria-label':'Maqam'},ALL.map(k=>{const b=h('button',{class:'chip','data-k':k,style:`--mc:var(--${k})`,'aria-pressed':String(SG.k===k)},h('span',{class:'ar',lang:'ar',dir:'rtl'},M[k].ar),M[k].name);
     b.addEventListener('click',()=>{SG.k=k;SG.cols=null;chips.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderAyat();renderTake();});return b;}));
   SG.cv=h('canvas',{'aria-hidden':'true'});
   const micbtn=h('button',{class:'btn primary',id:'micbtn','aria-pressed':'false',onclick:()=>{SG.stream?stopMic():startMic();}},h('span',{'aria-hidden':'true'},'🎙'),' Start the microphone');
   const homebtn=h('button',{class:'btn',id:'homebtn',hidden:true,onclick:()=>{if(SG.medHz){SG.home=SG.medHz;SG.trace=[];setMicMsg('Home set. The stairs now line up with the reciter.');}else setMicMsg('Tap this while the reciter is holding a note.');}},'This is home');
   const gbtn=h('button',{class:'btn gold',onclick:e=>guided(e.currentTarget)},h('span',{class:'ic'},'▶'),' Guided: sing the stairs');
+  const vbtn=h('button',{class:'btn',onclick:e=>findVoice(e.currentTarget)},'Find my voice');
+  const dseg=h('div',{class:'seg',role:'group','aria-label':'What the guided drill covers'},Object.entries(DRILLS).map(([id,[lab]])=>{const b=h('button',{'aria-pressed':String(SG.drill===id)},lab);
+    b.addEventListener('click',()=>{SG.drill=id;dseg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});return b;}));
   const meter=h('div',{class:'panel',id:'meterbox'},h('h2',null,'Sing and see'),
-    h('p',{class:'muted'},'Pick a maqam, start the microphone and sing or hum "aah". The line shows your voice on the stairs: green when you are on a stair. Use headphones if "Hum along" is on, so the microphone hears only you.'),
+    h('p',{class:'muted'},'Pick a maqam, start the microphone and sing or hum "aah". The line shows your voice on the stairs: green when you are on a stair. Use headphones if "Hum along" is on, so the microphone hears only you. New here? Press "Find my voice" first, so home sits where your voice is comfortable.'),
     chips,h('div',{class:'meter'},SG.cv,h('div',{class:'tuner','aria-hidden':'true'},h('span',{class:'lo'},'low'),h('div',{class:'track'},h('i',{class:'zone'}),SG.needle=h('b',{class:'needle','data-on':'idle'})),h('span',{class:'hi'},'high'))),h('div',{class:'readout',id:'readout'}),
-    h('div',{class:'actions'},micbtn,gbtn,homebtn),h('p',{class:'legend',id:'micmsg',role:'status'}),
+    h('div',{class:'actions'},micbtn,vbtn,homebtn),h('p',{class:'legend',id:'micmsg',role:'status'}),
+    h('h3',null,'Guided drill'),h('p',{class:'muted'},'The page sings one stair, then you sing it back. If you miss, you get one more try. A star appears on a maqam when you hit all seven stairs of "Stairs 1 to 4".'),dseg,h('div',{class:'actions'},gbtn),
     h('div',{class:'guide-res'},h('div',{class:'dots',id:'dots'}),h('div',{id:'guidesum',role:'status'})),
     h('p',{class:'legend'},'Your microphone is only used inside this page to measure pitch. Nothing is uploaded.'));
   const rec=h('div',{class:'panel'},h('h3',null,'Record yourself and compare'),
-    h('p',{class:'muted'},'Record yourself singing the phrase, then play the example and your take back to back. Recordings stay in this browser tab unless you save them.'),
-    h('div',{class:'actions'},h('button',{class:'btn rec',id:'recbtn','aria-pressed':'false',onclick:async()=>{if(SG.rec&&SG.rec.state==='recording'){SG.rec.stop();return;}const b=await recordBlob(30);if(b){SG.take=b;renderTake();}}},h('span',{'aria-hidden':'true'},'●'),' Record my take')),
+    h('p',{class:'muted'},'Record yourself singing the phrase (up to 30 seconds), then play the example and your take back to back. Your take is also drawn on the stairs, so you can see where your voice sat. Recordings stay in this browser tab unless you save them.'),
+    h('div',{class:'actions'},h('button',{class:'btn rec',id:'recbtn','aria-pressed':'false',onclick:async()=>{if(SG.rec&&SG.rec.state==='recording'){SG.rec.stop();return;}const b=await recordBlob(30);if(b){SG.take=b;SG.takePts=null;renderTake();}}},h('span',{'aria-hidden':'true'},'●'),' Record my take')),
     h('div',{id:'takebox',hidden:true}));
   const ay=h('div',{class:'panel',id:'ayatbox'});
   const mine=h('div',{class:'panel',id:'refbox'});
@@ -1328,17 +1449,20 @@ function renderSing(){
     h('div',{class:'cliplist'},REAL.map(realCard)),
     h('p',{class:'legend'},'Licences are as stated on each file’s Commons page. The maqam of each recording is not labelled: practise naming it yourself.'));
   v.replaceChildren(meter,rec,ay,mine,real);
-  renderAyat();renderTake();renderRefs();syncSingButtons();updateReadout(null);
+  renderAyat();renderTake();renderRefs();syncSingButtons();updateReadout(null);markBest();
   if(!SG.raf){SG.trace=[];drawMeter(performance.now());}
 }
 function renderTake(){const t=$('#takebox');if(!t)return;if(!SG.take){t.hidden=true;return;}
   if(SG.takeUrl)URL.revokeObjectURL(SG.takeUrl);SG.takeUrl=URL.createObjectURL(SG.take);
-  const k=SG.k,ref=useRef?pickClip(k):null;
+  const k=SG.k,ref=useRef?pickClip(k):null,blob=SG.take,cv=h('canvas',{role:'img','aria-label':'Your take drawn on the stairs'}),sum=h('p',{class:'takesum',role:'status'},'Looking at your take…');
   t.hidden=false;t.replaceChildren(h('div',{class:'actions'},
     h('button',{class:'btn',onclick:()=>{if(ref)playBlob(ref.blob,{label:'Example',onEnd:()=>playBlob(SG.take,{label:'Your take'})});else playSeq(seqPhrase(k),{label:`${M[k].name} example`,onNote:hl(k),onEnd:()=>playBlob(SG.take,{label:'Your take'})});}},h('span',{class:'ic'},'▶'),` ${M[k].name} example, then me`),
     h('button',{class:'btn',onclick:()=>playBlob(SG.take,{label:'Your take'})},h('span',{class:'ic'},'▶'),' Just my take'),
     h('a',{class:'btn',href:SG.takeUrl,download:`my-${k}-take.${extFor(SG.take.type)}`},'Save to my device'),
-    h('button',{class:'btn',onclick:async()=>{await addClip(SG.take,k,`My ${M[k].name} take`);}},'Keep as a reference')));}
+    h('button',{class:'btn',onclick:async()=>{await addClip(SG.take,k,`My ${M[k].name} take`);}},'Keep as a reference')),
+    h('div',{class:'takechart'},cv),sum);
+  analyseTake().then(res=>{if(SG.take!==blob||!cv.isConnected)return;if(!res){sum.textContent='This take could not be drawn in this browser.';return;}
+    const cp=res.pts.map(p=>({t:p.t,c:p.hz>0?fold(centsOf(p.hz,tonic)):null}));drawTake(cv,cp,res.dur);sum.textContent=takeSummary(cp,k);});}
 function renderAyat(){const box=$('#ayatbox');if(!box)return;const k=SG.k,su=AYAT[AY.s];
   const sel=h('select',{id:'surah'},Object.entries(AYAT).map(([id,x])=>h('option',{value:id,selected:id===AY.s?true:null},`${x.name} · ${x.ar}`)));
   sel.addEventListener('change',()=>{AY.s=sel.value;renderAyat();});
@@ -1357,9 +1481,11 @@ function renderAyat(){const box=$('#ayatbox');if(!box)return;const k=SG.k,su=AYA
     ...items.map(it=>it.el),
     h('p',{class:'legend'},'Arabic text: the standard Hafs ʿan ʿĀṣim reading, typed for this page. Please check it against a printed mushaf and report any mistake.'));}
 async function addClip(blob,k,label){
-  if(!blob)return;if(blob.size>25*1024*1024){setRefMsg('That file is larger than 25 MB. Please trim it first.');return;}
+  if(!blob)return;if(blob.size>12*1024*1024){setRefMsg('That file is larger than 12 MB. Please trim it to a few minutes first.');return;}
   const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,8),k,label:String(label||'Reference').slice(0,60),type:blob.type||'audio/*',blob,size:blob.size,date:Date.now()};
-  try{await decodeBlob(blob);}catch(e){setRefMsg('That file could not be read as audio in this browser.');return;}
+  let len=0;try{len=(await decodeBlob(blob)).duration;}catch(e){setRefMsg('That file could not be read as audio in this browser.');return;}
+  if(blob!==SG.take)BUF.delete(blob);if(len>600){setRefMsg('That recording is longer than 10 minutes. Please trim it to the part you want to learn from.');return;}
+  askPersist();
   try{await IDB.put(rec);}catch(e){setRefMsg('This browser would not store the recording (private mode or full storage).');return;}
   await loadClips();renderRefs();setRefMsg(`Saved "${rec.label}" for ${isMaq(k)?M[k].name:'other'}.`);}
 function setRefMsg(t){const m=$('#refmsg');if(m)m.textContent=t;}
@@ -1389,10 +1515,9 @@ const REAL=[
  {t:'Al-Aʿla',who:'Abdulbari ath-Thubaity',lic:'CC BY-SA 4.0',f:'6/6e/Surah_Ala_-_Abdulbari_ath-Thubaity.wav',len:'1:08'},
  {t:'Ibrahim 35–41',who:'Muhammad Ayyub',lic:'CC BY 4.0',f:'0/0a/Shaykh_Muhammad_Ayyub_-_Surah_Ibrahim_35-41.wav',len:'2:17'},
  {t:'Al-Qadr, mujawwad (slow, melodic style)',who:'reciter not named on Commons',lic:'CC0',f:'6/60/Chapter_97%2C_Surah_Al-Qadr_%28Mujawwad%29_-_Recitation_of_the_Holy_Qur%27an.mp3',mp3:true,len:'1:09'},
- {t:'Maryam, mujawwad (full surah)',who:'Abdul Basit Abd us-Samad',lic:'CC BY-SA 4.0',f:'7/73/Qari_Abdul_Basit_-_19_%28Maryam%29.ogg',orig:true,len:'43:00'},
  {t:'Adhan',who:'Aaqib Azeez',lic:'CC BY-SA 4.0',f:'7/7d/The_Adhan_-_Muslim_Call_to_Prayer_-_Aaqib_Azeez.mp3',mp3:true,len:'1:27'},
  {t:'Adhan',who:'muezzin not named on Commons',lic:'CC0',f:'b/b0/Beautiful_adhan.ogg',len:'2:34'},
- {t:'Adhan recorded in Makkah, 1885 (oldest known recording)',who:'recorded by C. Snouck Hurgronje',lic:'Public domain',f:'4/41/Oldest_recording_of_the_Quran_1885.oga',len:'1:30'}];
+ {t:'Recitation recorded in Makkah, 1885 (said to be the oldest known recording)',who:'recorded by C. Snouck Hurgronje',lic:'Public domain',f:'4/41/Oldest_recording_of_the_Quran_1885.oga',len:'1:30'}];
 const COMMONS='https://upload.wikimedia.org/wikipedia/commons/';
 const DEEDS={'CC0':'https://creativecommons.org/publicdomain/zero/1.0/','CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/','CC BY-SA 4.0':'https://creativecommons.org/licenses/by-sa/4.0/'};
 function realCard(r){const name=r.f.split('/').pop(),srcs=[];
@@ -1407,7 +1532,8 @@ function realCard(r){const name=r.f.split('/').pop(),srcs=[];
 /* =================== SETTINGS, BACKUP, INSTALL =================== */
 function openSettings(open){const p=$('#settings'),b=$('#setbtn');p.hidden=!open;b.setAttribute('aria-expanded',String(open));if(open){renderBackup();renderInstall();p.querySelector('select').focus();}else b.focus();}
 function cleanProgress(x){if(!x||typeof x!=='object')return null;
-  const out={passed:{},tests:[],sing:{},lastPass:null,early:false,cx:[]};
+  const out={passed:{},tests:[],sing:{},lastPass:null,early:false,cx:[],best:{}};
+  if(x.best&&typeof x.best==='object')for(const k of ALL){const v=x.best[k];if(v&&typeof v==='object')out.best[k]={hits:Math.max(0,Math.min(7,Math.round(+v.hits||0))),date:String(v.date||'').slice(0,10)};}
   if(x.passed&&typeof x.passed==='object')for(const [d,v] of Object.entries(x.passed)){const n=+d;if(Number.isInteger(n)&&n>=1&&n<=LAST&&v&&typeof v==='object')out.passed[n]={score:+v.score||0,total:+v.total||0,date:String(v.date||'').slice(0,10)};}
   if(Array.isArray(x.tests))out.tests=x.tests.slice(-120).filter(t=>t&&typeof t==='object').map(t=>{const m={};if(t.misses&&typeof t.misses==='object')for(const [k,v] of Object.entries(t.misses))if(/^[a-z]{2,6}$/.test(k))m[k]=+v||0;return {date:String(t.date||'').slice(0,10),day:+t.day||0,score:+t.score||0,total:+t.total||0,misses:m};});
   if(x.sing&&typeof x.sing==='object')for(const [d,v] of Object.entries(x.sing))if(Array.isArray(v)&&+d>=1&&+d<=LAST)out.sing[+d]=v.slice(0,10).map(Boolean);
@@ -1419,13 +1545,13 @@ const dec=t=>JSON.parse(decodeURIComponent(escape(atob(String(t).trim().replace(
 function renderBackup(){const box=$('#backup');const ta=h('textarea',{id:'bkcode',spellcheck:'false','aria-label':'Backup code'});const msg=h('p',{class:'legend',role:'status'});
   const restore=raw=>{let o;try{o=typeof raw==='string'?(raw.trim().startsWith('{')?JSON.parse(raw):dec(raw)):raw;}catch(e){msg.textContent='That code could not be read. Copy the whole code and try again.';return;}
     if(!o||o.app!=='maqamat')return void(msg.textContent='That is not a backup from this course.');const p=cleanProgress(o.P);if(!p)return void(msg.textContent='The backup is empty or damaged.');
-    P=p;save();msg.textContent=`Restored: ${Object.keys(P.passed).length} days passed, ${P.tests.length} tests.`;route();};
+    LIVE=null;P=p;save();msg.textContent=`Restored: ${Object.keys(P.passed).length} days passed, ${P.tests.length} tests.`;route();};
   const file=h('input',{type:'file',accept:'.json,application/json,text/plain',hidden:true});
   file.addEventListener('change',async()=>{const f=file.files&&file.files[0];file.value='';if(!f)return;if(f.size>2e6)return void(msg.textContent='That file is too large to be a backup.');restore(await f.text());});
   box.replaceChildren(h('h3',null,'Back up your progress'),h('p',{class:'muted',style:'font-size:.88rem'},'Progress is saved only in this browser. Copy the code (or save the file) somewhere safe, and paste it here on a new phone or browser to carry on.'),
     h('div',{class:'actions'},
-      h('button',{class:'btn',onclick:async()=>{const code=enc({app:'maqamat',v:1,date:today(),P});ta.value=code;try{await navigator.clipboard.writeText(code);msg.textContent='Backup code copied.';}catch(e){ta.select();msg.textContent='Select the code above and copy it.';}}},'Copy backup code'),
-      h('button',{class:'btn',onclick:()=>{const b=new Blob([JSON.stringify({app:'maqamat',v:1,date:today(),P},null,1)],{type:'application/json'});const a=h('a',{href:URL.createObjectURL(b),download:`maqamat-backup-${today()}.json`});document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);}},'Save backup file'),
+      h('button',{class:'btn',onclick:async()=>{const code=enc({app:'maqamat',v:1,date:today(),P});ta.value=code;LS.set('mq.bk',today());try{await navigator.clipboard.writeText(code);msg.textContent='Backup code copied. Paste it somewhere safe, such as a note or a message to yourself.';}catch(e){ta.select();msg.textContent='Select the code above and copy it.';}}},'Copy backup code'),
+      h('button',{class:'btn',onclick:()=>{const b=new Blob([JSON.stringify({app:'maqamat',v:1,date:today(),P},null,1)],{type:'application/json'});const a=h('a',{href:URL.createObjectURL(b),download:`maqamat-backup-${today()}.json`});document.body.append(a);a.click();LS.set('mq.bk',today());setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);}},'Save backup file'),
       h('button',{class:'btn',onclick:()=>{if(ta.value.trim())restore(ta.value);else msg.textContent='Paste a backup code into the box first.';}},'Restore from code'),
       h('button',{class:'btn',onclick:()=>file.click()},'Restore from file'),file),ta,msg);}
 let installEvt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;});
@@ -1444,7 +1570,7 @@ function modal(title,body,{onClose,wide}={}){const prev=document.activeElement;c
 function showTips(){modal('How to get the best results',[
   h('ol',{style:'margin:0;padding-left:1.2em;display:grid;gap:8px'},
     h('li',null,h('b',null,'A little every day. '),'One lesson and one test a day beats a long session once a week. The next day opens after a night’s sleep for a reason.'),
-    h('li',null,h('b',null,'Set "Your voice" first '),'(⚙ Settings) so the sounds sit where you can hum them comfortably.'),
+    h('li',null,h('b',null,'Set "Your voice" first '),'(⚙ Settings, or "Find my voice" on the Sing tab) so the sounds sit where you can hum them comfortably.'),
     h('li',null,h('b',null,'Use headphones. '),'You hear the small steps better, and the microphone hears only you.'),
     h('li',null,h('b',null,'Hum along. '),'Turn on "Hum along" while you sing, so home is always in your ear.'),
     h('li',null,h('b',null,'Listen to stair 2 first. '),'It sorts every maqam into a group: tiny, middle or full. Then listen for the one detail that differs inside the group.'),
@@ -1465,14 +1591,14 @@ function showTerms(){modal('Terms of use and privacy',[
   h('h3',null,'Privacy'),
   h('ul',{style:'margin:0;padding-left:1.2em;display:grid;gap:4px'},
     h('li',null,'Progress, settings and your reference recordings are stored only in your browser on this device (local storage and IndexedDB). This page sends none of it to a server. Clearing your browser data deletes it.'),
-    h('li',null,'The microphone is used only while you have it switched on, and only inside the page to measure pitch or to make a recording you ask for. Audio is not uploaded. Switch it off by pressing the microphone button again or leaving the Sing tab.'),
+    h('li',null,'The microphone is used only while you have it switched on, and only inside the page to measure pitch or to make a recording you ask for. Audio is not uploaded. It switches off when you press the microphone button again, leave the Sing tab, or switch to another app or tab.'),
     h('li',null,'The website host (for example GitHub Pages) receives the usual request logs, such as your IP address, when you open the page. Fonts are served from the same site, not from Google. When you press play on a real recording, it streams from Wikimedia Commons. Links to YouTube open YouTube. Those services receive your IP address and follow their own privacy policies.'),
     h('li',null,'If you open the course inside Claude, progress can also be saved to your Claude account so that it follows you.')),
   h('h3',null,'Recordings and licences'),
   h('p',null,'The real recordings are streamed from Wikimedia Commons under the licences shown next to each one (CC0, CC BY 4.0, CC BY-SA 4.0, or public domain for the 1885 recording), with credit to the people named there. Licences are as stated by the uploaders on Commons. If you are a rights holder and believe a recording is listed in error, ',h('a',{href:'https://github.com/furanite/maqaamaat-abyaat/issues',target:'_blank',rel:'noopener noreferrer'},'open an issue on the project page'),' and it will be removed.'),
   h('p',null,'Recordings you add yourself must be ones you have the right to use. They stay on your device.'),
   h('p',null,'Fonts: Amiri, Reem Kufi and IBM Plex are used under the SIL Open Font License 1.1 (licence files are in the fonts folder). The course text, code and computer-made sounds are © 2026 Moinuddeen and licensed under ',h('a',{href:'https://creativecommons.org/licenses/by-nc/4.0/',target:'_blank',rel:'noopener noreferrer license'},'CC BY-NC 4.0'),': you may share and adapt them for non-commercial use, with credit. This does not cover the Quran text, the fonts or the recordings, which keep their own terms.'),
-  h('p',{class:'legend'},'Last updated 20 November 2026.')],{wide:true});}
+  h('p',{class:'legend'},'Last updated 25 November 2026.')],{wide:true});}
 function celebrate(st){const title=st.name.replace(/^.*?·\s*/,'');const sparks=h('div',{class:'sparks','aria-hidden':'true'});
   for(let i=0;i<22;i++)sparks.append(h('i',{style:`left:${Math.random()*100}%;animation-delay:${(Math.random()*1.2).toFixed(2)}s;transform:scale(${(.6+Math.random()*.9).toFixed(2)})`}));
   const close=modal('Stage complete',[sparks,h('div',{class:'big8',html:STAR8,style:'justify-self:center'}),h('div',{class:'ar',lang:'ar',dir:'rtl',style:'text-align:center'},'الحمد لله'),
@@ -1488,13 +1614,16 @@ function route(){
   curView=name;
   for(const n of Object.keys(VIEWS))$('#v-'+n).hidden=n!==name;
   document.querySelectorAll('.tabs a').forEach(a=>{if(a.getAttribute('href')==='#'+name)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-  VIEWS[name]();
+  if(!(LIVE&&LIVE.view===name&&LIVE.el.isConnected))VIEWS[name]();
+  const ve=$('#v-'+name);ve.classList.remove('enter');void ve.offsetWidth;ve.classList.add('enter');
 }
 window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0});});
 const TONICS=[...$('#tonic').options].map(o=>+o.value);
-$('#tonic').addEventListener('change',e=>{tonic=+e.target.value;LS.set('mq.tonic',tonic);if(drone)setDrone(true);});
+$('#tonic').addEventListener('change',e=>setTonic(+e.target.value));
 $('#drone').addEventListener('click',()=>setDrone(!drone));
-function setSkin(k,save){if(!['milk','emerald','night'].includes(k))k='milk';document.documentElement.dataset.skin=k;document.querySelectorAll('.skin').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.skin===k)));if(save)LS.set('mq.skin',k);SG.cols=null;}
+function setSkin(k,save){if(!['milk','emerald','night'].includes(k))k='milk';document.documentElement.dataset.skin=k;document.querySelectorAll('.skin').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.skin===k)));if(save)LS.set('mq.skin',k);SG.cols=null;
+  const tc=$('#themecolor');if(tc){const c=getComputedStyle(document.documentElement).getPropertyValue('--band').trim();if(c)tc.content=c;}
+  if(curView==='sing'&&SG.take)renderTake();}
 document.querySelectorAll('.skin').forEach(b=>b.addEventListener('click',()=>setSkin(b.dataset.skin,true)));
 setSkin(LS.get('mq.skin',null)||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'night':'milk'),false);
 $('#timbre').addEventListener('change',e=>{timbre=e.target.value==='inst'?'inst':'voice';LS.set('mq.timbre',timbre);});
@@ -1506,6 +1635,8 @@ $('#setdone').addEventListener('click',()=>openSettings(false));
 $('#useref').checked=useRef;
 $('#useref').addEventListener('change',e=>{useRef=e.target.checked;LS.set('mq.useRef',useRef);if(curView==='sing')renderTake();});
 document.addEventListener('keydown',e=>{if(e.key!=='Escape'||document.querySelector('.celebrate'))return;if(!$('#settings').hidden){openSettings(false);return;}stopAll(true);});
+/* the microphone never stays open behind your back: leaving the page or switching app turns it off */
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&SG.stream){stopMic();setMicMsg('The microphone was switched off because you left the page.');}});
 $('#tipsbtn').addEventListener('click',showTips);
 $('#termsbtn').addEventListener('click',showTerms);
 route();
