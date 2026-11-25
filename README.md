@@ -6,8 +6,8 @@ A 28-day course for beginners who want to hear and sing the maqamat of Quran rec
 
 - Days 1 to 5 train the ear: high and low, the home sound, and tiny, middle and full steps.
 - Then Bayati, Hijaz, Rast, Saba, Nahawand and Kurd, and in the bonus stage Ajam and Sikah. Each has a staircase you can tap, a sung "aah" example, an "Echo me" drill and singing exercises.
-- One test a day. It runs from easy to hard, explains every answer and opens the next day once you pass. After the course, a daily review adds extra questions on the pairs you mix up most.
-- **Sing tab:** a live pitch meter (sing into the microphone and see which stair you are on), a guided "sing the stairs" drill, record-and-compare, guide melodies for Al-Fatiha, Al-Ikhlas and Al-Kawthar, your own reference recordings (for example from a teacher), and openly licensed real recitations from Wikimedia Commons.
+- One test a day. It runs from easy to hard, explains every answer and opens the next day once you pass. If you do not pass, a short drill practises exactly what you missed. Test tunes change every time, so you learn the maqam and not one melody. After the course, a daily review adds extra questions on the pairs you mix up most.
+- **Sing tab:** a live pitch meter (sing into the microphone and see which stair you are on), "Find my voice" (hum one note and the page sets your home sound), guided "sing the stairs" drills with a second try on a miss, record-and-compare with your take drawn on the stairs, guide melodies for Al-Fatiha, Al-Ikhlas and Al-Kawthar, your own reference recordings (for example from a teacher), and openly licensed real recitations from Wikimedia Commons.
 - Free practice: name the maqam, sort by stair 2, or two-step naming, plus "my weak spots".
 - Progress backup (code or file), install as an app, works offline (except the real recordings).
 - Three colour themes: Milk & Gold, Emerald and Night.

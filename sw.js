@@ -1,7 +1,7 @@
 /* Offline support. The page itself is fetched from the network first, so updates arrive as soon as you are online;
    the cached copy is used only when the network fails. Fonts are self-hosted and precached.
    Real recordings (Wikimedia) and YouTube are never cached. */
-const VERSION = 'maqamat-v2';
+const VERSION = 'maqamat-v3';
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'fonts/fonts.css',
   'fonts/Amiri-400-arabic.woff2',
   'fonts/Amiri-400-latin-ext.woff2',
